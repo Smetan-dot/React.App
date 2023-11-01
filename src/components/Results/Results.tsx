@@ -1,4 +1,3 @@
-import React from 'react';
 import './Results.css';
 import planet from '../../assets/planet.gif';
 
@@ -10,18 +9,13 @@ export type Planet = {
   population: string;
 };
 
-interface propsType {
-  items: Planet[];
-}
-
-class Results extends React.Component<propsType> {
-  render(): React.ReactNode {
-    const items = this.props.items;
-    if (items.length === 0) return <div className="results-container"></div>;
-
-    return (
-      <div className="results-container">
-        {items.map((item) => (
+function Results(props: { items: Planet[] }) {
+  return (
+    <div className="results-container">
+      {props.items.length === 0 ? (
+        <h2>Planets nor found</h2>
+      ) : (
+        props.items.map((item) => (
           <li key={item.name} className="results-item">
             <h3 className="subhead">
               <img src={planet} alt="planet" />
@@ -34,10 +28,10 @@ class Results extends React.Component<propsType> {
               <li>Population: {item.population}</li>
             </ul>
           </li>
-        ))}
-      </div>
-    );
-  }
+        ))
+      )}
+    </div>
+  );
 }
 
 export default Results;

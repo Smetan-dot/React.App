@@ -1,109 +1,59 @@
 import './App.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Loader from './components/Loader/Loader';
 import Search from './components/Search/Search';
 import Results, { Planet } from './components/Results/Results';
+import loadData from './components/Api/planetRequest';
 
-class App extends React.Component {
-  constructor(props: object) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.setValue = this.setValue.bind(this);
-  }
+function App() {
+  const [url, setUrl] = useState(checkSearch());
+  const [items, setItems] = useState<Planet[]>([]);
+  const [dataIsLoaded, setDataIsLoaded] = useState(false);
+  const [value, setValue] = useState(checkValue());
 
-  state: {
-    url: string;
-    items: Planet[];
-    dataIsLoaded: boolean;
-    value: string;
-  } = {
-    url: this.checkSearch(),
-    items: [],
-    dataIsLoaded: false,
-    value: this.checkValue(),
-  };
-
-  checkSearch(): string {
+  function checkSearch(): string {
     const url = localStorage.getItem('search');
     if (url !== null) return url;
     return 'https://swapi.dev/api/planets/?search=';
   }
 
-  checkValue(): string {
+  function checkValue(): string {
     const input = localStorage.getItem('input');
     if (input !== null) return input;
     return '';
   }
 
-  async handleClick() {
-    this.setState({ dataIsLoaded: false });
-    localStorage.setItem('search', this.state.url);
-    localStorage.setItem('input', this.state.value);
-    await fetch(this.state.url)
-      .then((res) => res.json())
-      .then((json) => {
-        this.setState({
-          items: json.results,
-          dataIsLoaded: true,
-        });
-      });
+  async function handleClick() {
+    setDataIsLoaded(false);
+    loadData(url, setItems, setDataIsLoaded);
+    localStorage.setItem('search', url);
+    localStorage.setItem('input', value);
   }
 
-  handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    this.setState({
-      url: `https://swapi.dev/api/planets/?search=${event.target.value}`,
-      value: event.target.value,
-    });
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
+    setUrl(`https://swapi.dev/api/planets/?search=${event.target.value}`);
+    setValue(event.target.value);
   }
 
-  setValue() {
-    return this.state.value;
+  function setInputValue() {
+    return value;
   }
 
-  async componentDidMount(): Promise<void> {
-    await fetch(this.state.url)
-      .then((res) => res.json())
-      .then((json) => {
-        this.setState({
-          items: json.results,
-          dataIsLoaded: true,
-        });
-      });
-  }
+  useEffect(() => {
+    loadData(url, setItems, setDataIsLoaded);
+  }, []);
 
-  render(): React.ReactNode {
-    const dataIsLoaded = this.state.dataIsLoaded;
-    if (!dataIsLoaded)
-      return (
-        <div className="app-container">
-          <h1 className="head">Star Wars Planets</h1>
-          <Search
-            handleClick={this.handleClick}
-            handleChange={this.handleChange}
-            setValue={this.setValue}
-          ></Search>
-          <Loader></Loader>
-        </div>
-      );
-    return (
-      <div className="app-container">
-        <h1 className="head">Star Wars Planets</h1>
-        <Search
-          handleClick={this.handleClick}
-          handleChange={this.handleChange}
-          setValue={this.setValue}
-        ></Search>
-        <button
-          className="crash-button"
-          onClick={() => this.setState({ items: 0 })}
-        >
-          Crash
-        </button>
-        <Results items={this.state.items}></Results>
-      </div>
-    );
-  }
+  return (
+    <div className="app-container">
+      <h1 className="head">Star Wars Planets</h1>
+      <Search
+        handleClick={handleClick}
+        handleChange={handleChange}
+        setValue={setInputValue}
+      ></Search>
+      {!dataIsLoaded ? <Loader></Loader> : <Results items={items}></Results>}
+    </div>
+  );
 }
 
 export default App;
