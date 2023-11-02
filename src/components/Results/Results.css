@@ -26,3 +26,8 @@
 .results-descripsion {
     text-align: start;
 }
+
+.not-found {
+    margin: 20px auto;
+    color:#d1ff2d;
+}

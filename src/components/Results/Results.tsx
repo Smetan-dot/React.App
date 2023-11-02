@@ -13,7 +13,7 @@ function Results(props: { items: Planet[] }) {
   return (
     <div className="results-container">
       {props.items.length === 0 ? (
-        <h2>Planets nor found</h2>
+        <h2 className="not-found">Planets not found, try again</h2>
       ) : (
         props.items.map((item) => (
           <li key={item.name} className="results-item">
