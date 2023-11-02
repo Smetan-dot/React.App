@@ -1,6 +1,7 @@
 import './Pagination.css';
 import { Planet } from '../Results/Results';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Pagination(props: {
   url: string;
@@ -23,6 +24,7 @@ function Pagination(props: {
   const [prev, setPrev] = useState(true);
   const [next, setNext] = useState(false);
   const [last, setLast] = useState(false);
+  const navigate = useNavigate();
 
   async function loadingData(page: number) {
     props.setDataIsLoaded(false);
@@ -44,6 +46,7 @@ function Pagination(props: {
     }
     setFirst(false);
     setPrev(false);
+    navigate(`/?page=${props.page + 1}`);
   }
   function prevPage() {
     loadingData(props.page - 1);
@@ -54,6 +57,7 @@ function Pagination(props: {
     }
     setLast(false);
     setNext(false);
+    navigate(`/?page=${props.page - 1}`);
   }
   function startPage() {
     loadingData(1);
@@ -62,6 +66,7 @@ function Pagination(props: {
     setPrev(true);
     setNext(false);
     setLast(false);
+    navigate('/?page=1');
   }
   function lastPage() {
     loadingData(Math.ceil(props.itemsCount / 10));
@@ -70,6 +75,7 @@ function Pagination(props: {
     setPrev(false);
     setNext(true);
     setLast(true);
+    navigate(`/?page=${Math.ceil(props.itemsCount / 10)}`);
   }
   const toStart = '<<';
   const toEnd = '>>';

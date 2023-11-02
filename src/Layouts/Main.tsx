@@ -1,5 +1,6 @@
 import './Main.css';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader/Loader';
 import Search from '../components/Search/Search';
 import Results, { Planet } from '../components/Results/Results';
@@ -14,6 +15,8 @@ function Main() {
   const [page, setPage] = useState(1);
   const [itemsCount, setItemsCount] = useState(0);
   const [pagination, setPagination] = useState(false);
+
+  const navigate = useNavigate();
 
   function checkSearch(): string {
     const url = localStorage.getItem('search');
@@ -48,6 +51,7 @@ function Main() {
 
   useEffect(() => {
     loadData(url, setItems, setDataIsLoaded, setItemsCount, setPagination);
+    navigate('/?page=1');
   }, []);
 
   return (
