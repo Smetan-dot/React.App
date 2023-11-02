@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Pagination(props: {
   url: string;
+  value: string;
   setItems: React.Dispatch<React.SetStateAction<Planet[]>>;
   setDataIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
   itemsCount: number;
@@ -37,6 +38,16 @@ function Pagination(props: {
     );
   }
 
+  function checkCount(button: boolean) {
+    if (props.itemsCount <= 10) return true;
+    return button;
+  }
+
+  function checkCount2(button: boolean) {
+    if (props.page === 1) return true;
+    return button;
+  }
+
   function nextPage() {
     loadingData(props.page + 1);
     props.setPage(props.page + 1);
@@ -46,7 +57,7 @@ function Pagination(props: {
     }
     setFirst(false);
     setPrev(false);
-    navigate(`/?page=${props.page + 1}`);
+    navigate(`/?search=${props.value}&page=${props.page + 1}`);
   }
   function prevPage() {
     loadingData(props.page - 1);
@@ -57,7 +68,7 @@ function Pagination(props: {
     }
     setLast(false);
     setNext(false);
-    navigate(`/?page=${props.page - 1}`);
+    navigate(`/?search=${props.value}&page=${props.page - 1}`);
   }
   function startPage() {
     loadingData(1);
@@ -66,7 +77,7 @@ function Pagination(props: {
     setPrev(true);
     setNext(false);
     setLast(false);
-    navigate('/?page=1');
+    navigate('/?search=${props.value}&page=1');
   }
   function lastPage() {
     loadingData(Math.ceil(props.itemsCount / 10));
@@ -75,7 +86,9 @@ function Pagination(props: {
     setPrev(false);
     setNext(true);
     setLast(true);
-    navigate(`/?page=${Math.ceil(props.itemsCount / 10)}`);
+    navigate(
+      `/?search=${props.value}&page=${Math.ceil(props.itemsCount / 10)}`
+    );
   }
   const toStart = '<<';
   const toEnd = '>>';
@@ -86,18 +99,30 @@ function Pagination(props: {
       <button
         className="pagination-button"
         onClick={startPage}
-        disabled={first}
+        disabled={checkCount2(first)}
       >
         {toStart}
       </button>
-      <button className="pagination-button" onClick={prevPage} disabled={prev}>
+      <button
+        className="pagination-button"
+        onClick={prevPage}
+        disabled={checkCount2(prev)}
+      >
         {toPrev}
       </button>
       <h3 className="current-page">{props.page}</h3>
-      <button className="pagination-button" onClick={nextPage} disabled={next}>
+      <button
+        className="pagination-button"
+        onClick={nextPage}
+        disabled={checkCount(next)}
+      >
         {toNext}
       </button>
-      <button className="pagination-button" onClick={lastPage} disabled={last}>
+      <button
+        className="pagination-button"
+        onClick={lastPage}
+        disabled={checkCount(last)}
+      >
         {toEnd}
       </button>
     </div>

@@ -35,6 +35,7 @@ function Main() {
     loadData(url, setItems, setDataIsLoaded, setItemsCount, setPagination);
     localStorage.setItem('search', url);
     localStorage.setItem('input', value);
+    navigate(`/?search=${value}&page=1`);
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -51,7 +52,7 @@ function Main() {
 
   useEffect(() => {
     loadData(url, setItems, setDataIsLoaded, setItemsCount, setPagination);
-    navigate('/?page=1');
+    navigate(`/?search=${value}&page=1`);
   }, []);
 
   return (
@@ -67,6 +68,7 @@ function Main() {
       ) : (
         <Pagination
           url={url}
+          value={value}
           setItems={setItems}
           setDataIsLoaded={setDataIsLoaded}
           itemsCount={itemsCount}
