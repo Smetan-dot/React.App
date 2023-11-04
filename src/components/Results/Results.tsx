@@ -1,5 +1,6 @@
 import './Results.css';
 import planet from '../../assets/planet.gif';
+import { Link } from 'react-router-dom';
 
 export type Planet = {
   name: string;
@@ -7,9 +8,13 @@ export type Planet = {
   climate: string;
   terrain: string;
   population: string;
+  url: string;
 };
 
-function Results(props: { items: Planet[] }) {
+function Results(props: {
+  items: Planet[];
+  setId: React.Dispatch<React.SetStateAction<number>>;
+}) {
   return (
     <div className="results-container">
       {props.items.length === 0 ? (
@@ -27,6 +32,14 @@ function Results(props: { items: Planet[] }) {
               <li>Terrain: {item.terrain}</li>
               <li>Population: {item.population}</li>
             </ul>
+            <Link
+              to={`/details/${item.url.split('/').at(-2)}`}
+              onClick={() => {
+                props.setId(Number(item.url.split('/').at(-2)));
+              }}
+            >
+              Learn more
+            </Link>
           </li>
         ))
       )}

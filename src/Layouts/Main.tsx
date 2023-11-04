@@ -1,13 +1,13 @@
 import './Main.css';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader/Loader';
 import Search from '../components/Search/Search';
 import Results, { Planet } from '../components/Results/Results';
 import loadData from '../components/Api/planetRequest';
 import Pagination from '../components/Pagination/Pagination';
 
-function Main() {
+function Main(props: { setId: React.Dispatch<React.SetStateAction<number>> }) {
   const [url, setUrl] = useState(checkSearch());
   const [items, setItems] = useState<Planet[]>([]);
   const [dataIsLoaded, setDataIsLoaded] = useState(false);
@@ -79,7 +79,14 @@ function Main() {
           loadData={loadData}
         ></Pagination>
       )}
-      {!dataIsLoaded ? <Loader></Loader> : <Results items={items}></Results>}
+      {!dataIsLoaded ? (
+        <Loader></Loader>
+      ) : (
+        <div className="main-wrapper">
+          <Results items={items} setId={props.setId}></Results>
+          <Outlet />
+        </div>
+      )}
     </div>
   );
 }

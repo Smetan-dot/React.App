@@ -31,3 +31,8 @@
   .crash-button:hover {
     background-color: red;
   }
+
+  .main-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }

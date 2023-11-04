@@ -77,7 +77,7 @@ function Pagination(props: {
     setPrev(true);
     setNext(false);
     setLast(false);
-    navigate('/?search=${props.value}&page=1');
+    navigate(`/?search=${props.value}&page=1`);
   }
   function lastPage() {
     loadingData(Math.ceil(props.itemsCount / 10));
