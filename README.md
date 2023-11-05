@@ -1,2 +1,0 @@
-To check, clone repo, go to the branch dev and run npm install. After that use scripts for run and check application. Thanks !
-P.S: at the beginning of the task, I forgot create main branch(facepalm). So in the future I will use release/main branch instead. Thanks for understanding!
