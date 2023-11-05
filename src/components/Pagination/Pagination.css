@@ -18,3 +18,7 @@
 .current-page {
     margin: 0;
 }
+
+.pagination-select {
+    cursor: pointer;
+}

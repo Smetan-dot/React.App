@@ -14,6 +14,7 @@ function Main(props: { setId: React.Dispatch<React.SetStateAction<number>> }) {
   const [value, setValue] = useState(checkValue());
   const [page, setPage] = useState(1);
   const [itemsCount, setItemsCount] = useState(0);
+  const [perPage, setPerPage] = useState('10');
   const [pagination, setPagination] = useState(false);
 
   const navigate = useNavigate();
@@ -76,6 +77,8 @@ function Main(props: { setId: React.Dispatch<React.SetStateAction<number>> }) {
           page={page}
           setPage={setPage}
           setPagination={setPagination}
+          perPage={perPage}
+          setPerPage={setPerPage}
           loadData={loadData}
         ></Pagination>
       )}
@@ -83,7 +86,12 @@ function Main(props: { setId: React.Dispatch<React.SetStateAction<number>> }) {
         <Loader></Loader>
       ) : (
         <div className="main-wrapper">
-          <Results items={items} setId={props.setId}></Results>
+          <Results
+            items={items}
+            setId={props.setId}
+            perPage={perPage}
+            page={page}
+          ></Results>
           <Outlet />
         </div>
       )}
