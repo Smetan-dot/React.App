@@ -1,0 +1,24 @@
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    min-width: 300px;
+    gap: 5%;
+    padding-bottom: 20px;
+}
+
+.pagination-button {
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+.pagination-button:disabled {
+    cursor: auto;
+}
+
+.current-page {
+    margin: 0;
+}
+
+.pagination-select {
+    cursor: pointer;
+}
