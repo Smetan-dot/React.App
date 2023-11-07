@@ -1,6 +1,8 @@
 import './Results.css';
 import planet from '../../assets/planet.gif';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { AppContext, MainContext } from '../../context/Context';
 
 export type Planet = {
   name: string;
@@ -11,51 +13,46 @@ export type Planet = {
   url: string;
 };
 
-function Results(props: {
-  items: Planet[];
-  setId: React.Dispatch<React.SetStateAction<number>>;
-  perPage: string;
-  page: number;
-}) {
-  if (props.perPage === '5' && props.page % 2 === 0)
+function Results() {
+  const { items, perPage, page } = useContext(MainContext);
+  const { setId } = useContext(AppContext);
+  if (perPage === '5' && page % 2 === 0)
     return (
       <div className="results-container">
-        {props.items.length === 0 ? (
+        {items.length === 0 ? (
           <h2 className="not-found">Planets not found, try again</h2>
         ) : (
-          props.items
-            .slice(Number(props.perPage), Number(props.perPage) * 2)
-            .map((item) => (
-              <li key={item.name} className="results-item">
-                <h3 className="subhead">
-                  <img src={planet} alt="planet" />
-                  {item.name}
-                </h3>
-                <ul className="results-descripsion">
-                  <li>Diameter: {item.diameter}</li>
-                  <li>Climate: {item.climate}</li>
-                  <li>Terrain: {item.terrain}</li>
-                  <li>Population: {item.population}</li>
-                </ul>
-                <Link
-                  to={`/details/${item.url.split('/').at(-2)}`}
-                  onClick={() => {
-                    props.setId(Number(item.url.split('/').at(-2)));
-                  }}
-                >
-                  Learn more
-                </Link>
-              </li>
-            ))
+          items.slice(Number(perPage), Number(perPage) * 2).map((item) => (
+            <li key={item.name} className="results-item">
+              <h3 className="subhead">
+                <img src={planet} alt="planet" />
+                {item.name}
+              </h3>
+              <ul className="results-descripsion">
+                <li>Diameter: {item.diameter}</li>
+                <li>Climate: {item.climate}</li>
+                <li>Terrain: {item.terrain}</li>
+                <li>Population: {item.population}</li>
+              </ul>
+              <Link
+                to={`/details/${item.url.split('/').at(-2)}`}
+                onClick={() => {
+                  setId(Number(item.url.split('/').at(-2)));
+                }}
+              >
+                Learn more
+              </Link>
+            </li>
+          ))
         )}
       </div>
     );
   return (
     <div className="results-container">
-      {props.items.length === 0 ? (
+      {items.length === 0 ? (
         <h2 className="not-found">Planets not found, try again</h2>
       ) : (
-        props.items.slice(0, Number(props.perPage)).map((item) => (
+        items.slice(0, Number(perPage)).map((item) => (
           <li key={item.name} className="results-item">
             <h3 className="subhead">
               <img src={planet} alt="planet" />
@@ -70,7 +67,7 @@ function Results(props: {
             <Link
               to={`/details/${item.url.split('/').at(-2)}`}
               onClick={() => {
-                props.setId(Number(item.url.split('/').at(-2)));
+                setId(Number(item.url.split('/').at(-2)));
               }}
             >
               Learn more

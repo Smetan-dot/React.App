@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import loadDetails from '../components/Api/detailsRequest';
 import Loader from '../components/Loader/Loader';
+import { AppContext } from '../context/Context';
 import './Details.css';
 
 export type DetailsType = {
@@ -17,10 +18,7 @@ export type DetailsType = {
   url: string;
 };
 
-function Details(props: {
-  id: number;
-  refWrap: React.RefObject<HTMLDivElement>;
-}) {
+function Details(props: { refWrap: React.RefObject<HTMLDivElement> }) {
   const [state, setState] = useState({
     name: '',
     rotation_period: '',
@@ -34,10 +32,11 @@ function Details(props: {
     url: '',
   });
   const [detailsIsLoaded, setDetailsIsLoaded] = useState(false);
+  const { id } = useContext(AppContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadDetails(props.id, setState, setDetailsIsLoaded);
+    loadDetails(id, setState, setDetailsIsLoaded);
   }, []);
 
   const handleClick = (event: MouseEvent) => {

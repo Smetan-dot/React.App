@@ -1,13 +1,14 @@
 import './Main.css';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader/Loader';
 import Search from '../components/Search/Search';
 import Results, { Planet } from '../components/Results/Results';
 import loadData from '../components/Api/planetRequest';
 import Pagination from '../components/Pagination/Pagination';
+import { MainContext } from '../context/Context';
 
-function Main(props: { setId: React.Dispatch<React.SetStateAction<number>> }) {
+function Main() {
   const [url, setUrl] = useState(checkSearch());
   const [items, setItems] = useState<Planet[]>([]);
   const [dataIsLoaded, setDataIsLoaded] = useState(false);
@@ -31,26 +32,6 @@ function Main(props: { setId: React.Dispatch<React.SetStateAction<number>> }) {
     return '';
   }
 
-  async function handleClick() {
-    setDataIsLoaded(false);
-    loadData(url, setItems, setDataIsLoaded, setItemsCount, setPagination);
-    localStorage.setItem('search', url);
-    localStorage.setItem('input', value);
-    navigate(`/?search=${value}&page=1`);
-  }
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    setUrl(
-      `https://swapi.dev/api/planets/?search=${event.target.value}&page=1`
-    );
-    setPage(1);
-    setValue(event.target.value);
-  }
-
-  function setInputValue() {
-    return value;
-  }
-
   useEffect(() => {
     loadData(url, setItems, setDataIsLoaded, setItemsCount, setPagination);
     navigate(`/?search=${value}&page=1`);
@@ -59,42 +40,38 @@ function Main(props: { setId: React.Dispatch<React.SetStateAction<number>> }) {
   return (
     <div className="app-container">
       <h1 className="head">Star Wars Planets</h1>
-      <Search
-        handleClick={handleClick}
-        handleChange={handleChange}
-        setValue={setInputValue}
-      ></Search>
-      {!pagination ? (
-        ''
-      ) : (
-        <Pagination
-          url={url}
-          value={value}
-          setItems={setItems}
-          setDataIsLoaded={setDataIsLoaded}
-          itemsCount={itemsCount}
-          setItemsCount={setItemsCount}
-          page={page}
-          setPage={setPage}
-          setPagination={setPagination}
-          perPage={perPage}
-          setPerPage={setPerPage}
-          loadData={loadData}
-        ></Pagination>
-      )}
-      {!dataIsLoaded ? (
-        <Loader></Loader>
-      ) : (
-        <div className="main-wrapper">
-          <Results
-            items={items}
-            setId={props.setId}
-            perPage={perPage}
-            page={page}
-          ></Results>
-          <Outlet />
-        </div>
-      )}
+      <MainContext.Provider
+        value={{
+          url,
+          setUrl,
+          items,
+          setItems,
+          dataIsLoaded,
+          setDataIsLoaded,
+          page,
+          setPage,
+          itemsCount,
+          setItemsCount,
+          pagination,
+          setPagination,
+          value,
+          setValue,
+          perPage,
+          setPerPage,
+        }}
+      >
+        <Search></Search>
+
+        {!pagination ? '' : <Pagination></Pagination>}
+        {!dataIsLoaded ? (
+          <Loader></Loader>
+        ) : (
+          <div className="main-wrapper">
+            <Results></Results>
+            <Outlet />
+          </div>
+        )}
+      </MainContext.Provider>
     </div>
   );
 }
