@@ -2,10 +2,11 @@ import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import loadDetails from '../components/Api/detailsRequest';
 import Loader from '../components/Loader/Loader';
-import { AppContext } from '../context/Context';
+import DetailsDesc from '../components/DetailsDesc/DetailsDesc';
+import { AppContext, DetailsContext } from '../context/Context';
 import './Details.css';
 
-export type DetailsType = {
+export type DetailsPlanet = {
   name: string;
   rotation_period: string;
   orbital_period: string;
@@ -53,36 +54,19 @@ function Details(props: { refWrap: React.RefObject<HTMLDivElement> }) {
   }, []);
 
   return (
-    <div className="details-container">
-      {!detailsIsLoaded ? (
-        <Loader></Loader>
-      ) : (
-        <div ref={props.refWrap}>
-          <div className="details-header">
-            <h2 className="details-head">{state.name}</h2>
-            <button
-              className="details-close"
-              onClick={() => {
-                navigate(-1);
-              }}
-            >
-              x
-            </button>
+    <DetailsContext.Provider
+      value={{ state, setState, detailsIsLoaded, setDetailsIsLoaded }}
+    >
+      <div className="details-container">
+        {!detailsIsLoaded ? (
+          <Loader></Loader>
+        ) : (
+          <div ref={props.refWrap}>
+            <DetailsDesc></DetailsDesc>
           </div>
-          <ul className="details-descripsion">
-            <li>Rotation period: {state.rotation_period}</li>
-            <li>Orbital period: {state.orbital_period}</li>
-            <li>Diameter: {state.diameter}</li>
-            <li>Climate: {state.climate}</li>
-            <li>Gravity: {state.gravity}</li>
-            <li>Terrain: {state.terrain}</li>
-            <li>Surface water: {state.surface_water}</li>
-            <li>Population: {state.population}</li>
-            <li>URL: {state.url}</li>
-          </ul>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </DetailsContext.Provider>
   );
 }
 

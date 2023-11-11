@@ -82,3 +82,16 @@ export const planets: Planet[] = [
     url: 'bla',
   },
 ];
+
+export const details = {
+  name: 'bla',
+  rotation_period: 'bla',
+  orbital_period: 'bla',
+  diameter: 'bla',
+  climate: 'bla',
+  gravity: 'bla',
+  terrain: 'bla',
+  surface_water: 'bla',
+  population: 'bla',
+  url: 'bla',
+};

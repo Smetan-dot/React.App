@@ -58,6 +58,7 @@ describe('check Results', () => {
     it('render 5 planets', () => {
       const items = planets;
       const perPage = '5';
+      const page = 2;
       render(
         <BrowserRouter>
           <MainContext.Provider

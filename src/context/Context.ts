@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { Planet } from '../components/Results/Results';
+import { DetailsPlanet } from '../Layouts/Details';
 
 type MainType = {
   url: string;
@@ -25,5 +26,26 @@ type AppType = {
   setId: React.Dispatch<React.SetStateAction<number>>;
 };
 
+type DetailsType = {
+  state: DetailsPlanet;
+  setState: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+      rotation_period: string;
+      orbital_period: string;
+      diameter: string;
+      climate: string;
+      gravity: string;
+      terrain: string;
+      surface_water: string;
+      population: string;
+      url: string;
+    }>
+  >;
+  detailsIsLoaded: boolean;
+  setDetailsIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 export const MainContext = createContext({} as MainType);
 export const AppContext = createContext({} as AppType);
+export const DetailsContext = createContext({} as DetailsType);

@@ -1,8 +1,8 @@
-import { DetailsType } from '../../Layouts/Details';
+import { DetailsPlanet } from '../../Layouts/Details';
 
 const loadDetails = async (
   id: number,
-  setState: React.Dispatch<React.SetStateAction<DetailsType>>,
+  setState: React.Dispatch<React.SetStateAction<DetailsPlanet>>,
   setDetailsIsLoaded: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   await fetch(`https://swapi.dev/api/planets/${id}`)
