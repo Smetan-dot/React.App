@@ -7,7 +7,7 @@ export const planets: Planet[] = [
     climate: 'bla',
     terrain: 'bla',
     population: 'bla',
-    url: 'bla',
+    url: 'https://swapi.dev/api/planets/1/',
   },
   {
     name: 'bla2',
@@ -15,7 +15,7 @@ export const planets: Planet[] = [
     climate: 'bla',
     terrain: 'bla',
     population: 'bla',
-    url: 'bla',
+    url: 'https://swapi.dev/api/planets/1/',
   },
   {
     name: 'bla3',
@@ -23,7 +23,7 @@ export const planets: Planet[] = [
     climate: 'bla',
     terrain: 'bla',
     population: 'bla',
-    url: 'bla',
+    url: 'https://swapi.dev/api/planets/1/',
   },
   {
     name: 'bla4',
@@ -31,7 +31,7 @@ export const planets: Planet[] = [
     climate: 'bla',
     terrain: 'bla',
     population: 'bla',
-    url: 'bla',
+    url: 'https://swapi.dev/api/planets/1/',
   },
   {
     name: 'bla5',
@@ -39,7 +39,7 @@ export const planets: Planet[] = [
     climate: 'bla',
     terrain: 'bla',
     population: 'bla',
-    url: 'bla',
+    url: 'https://swapi.dev/api/planets/1/',
   },
   {
     name: 'bla6',
@@ -47,7 +47,7 @@ export const planets: Planet[] = [
     climate: 'bla',
     terrain: 'bla',
     population: 'bla',
-    url: 'bla',
+    url: 'https://swapi.dev/api/planets/1/',
   },
   {
     name: 'bla7',
@@ -55,7 +55,7 @@ export const planets: Planet[] = [
     climate: 'bla',
     terrain: 'bla',
     population: 'bla',
-    url: 'bla',
+    url: 'https://swapi.dev/api/planets/1/',
   },
   {
     name: 'bla8',
@@ -63,7 +63,7 @@ export const planets: Planet[] = [
     climate: 'bla',
     terrain: 'bla',
     population: 'bla',
-    url: 'bla',
+    url: 'https://swapi.dev/api/planets/1/',
   },
   {
     name: 'bla9',
@@ -71,7 +71,7 @@ export const planets: Planet[] = [
     climate: 'bla',
     terrain: 'bla',
     population: 'bla',
-    url: 'bla',
+    url: 'https://swapi.dev/api/planets/1/',
   },
   {
     name: 'bla10',
@@ -79,7 +79,7 @@ export const planets: Planet[] = [
     climate: 'bla',
     terrain: 'bla',
     population: 'bla',
-    url: 'bla',
+    url: 'https://swapi.dev/api/planets/1/',
   },
 ];
 
@@ -93,5 +93,5 @@ export const details = {
   terrain: 'bla',
   surface_water: 'bla',
   population: 'bla',
-  url: 'bla',
+  url: 'https://swapi.dev/api/planets/1/',
 };

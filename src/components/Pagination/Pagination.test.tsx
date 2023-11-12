@@ -4,7 +4,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import Pagination from './Pagination';
 
 describe('check Pagination', async () => {
-  it('check render 4 buttons', () => {
+  it('check render 4 buttons and select', () => {
     render(
       <BrowserRouter>
         <Pagination />
