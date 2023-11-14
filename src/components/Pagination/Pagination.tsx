@@ -1,28 +1,10 @@
 import './Pagination.css';
-import { Planet } from '../Results/Results';
-import { useState } from 'react';
+import loadData from '../Api/planetRequest';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MainContext } from '../../context/Context';
 
-function Pagination(props: {
-  url: string;
-  value: string;
-  setItems: React.Dispatch<React.SetStateAction<Planet[]>>;
-  setDataIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
-  itemsCount: number;
-  setItemsCount: React.Dispatch<React.SetStateAction<number>>;
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  setPagination: React.Dispatch<React.SetStateAction<boolean>>;
-  perPage: string;
-  setPerPage: React.Dispatch<React.SetStateAction<string>>;
-  loadData: (
-    url: string,
-    setItems: React.Dispatch<React.SetStateAction<Planet[]>>,
-    setDataIsLoaded: React.Dispatch<React.SetStateAction<boolean>>,
-    setItemsCount: React.Dispatch<React.SetStateAction<number>>,
-    setPagination: React.Dispatch<React.SetStateAction<boolean>>
-  ) => Promise<void>;
-}) {
+function Pagination() {
   const [first, setFirst] = useState(true);
   const [prev, setPrev] = useState(true);
   const [next, setNext] = useState(false);
@@ -30,96 +12,103 @@ function Pagination(props: {
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
 
+  const {
+    url,
+    value,
+    setItems,
+    setDataIsLoaded,
+    itemsCount,
+    setItemsCount,
+    page,
+    setPage,
+    setPagination,
+    perPage,
+    setPerPage,
+  } = useContext(MainContext);
+
   async function loadingData(page: number) {
-    props.setDataIsLoaded(false);
-    props.loadData(
-      `${props.url}&page=${page}`,
-      props.setItems,
-      props.setDataIsLoaded,
-      props.setItemsCount,
-      props.setPagination
+    setDataIsLoaded(false);
+    loadData(
+      `${url}&page=${page}`,
+      setItems,
+      setDataIsLoaded,
+      setItemsCount,
+      setPagination
     );
   }
 
   function checkCount(button: boolean) {
-    if (props.itemsCount <= Number(props.perPage)) return true;
+    if (itemsCount <= Number(perPage)) return true;
     return button;
   }
 
   function checkCount2(button: boolean) {
-    if (props.page === 1) return true;
+    if (page === 1) return true;
     return button;
   }
 
   function nextPage() {
-    if (props.perPage === '5') {
-      if (props.page % 2 === 0) {
-        console.log(count);
-        loadingData(props.page - count);
+    if (perPage === '5') {
+      if (page % 2 === 0) {
+        loadingData(page - count);
         setCount(count + 1);
       }
-    } else loadingData(props.page + 1);
+    } else loadingData(page + 1);
 
-    props.setPage(props.page + 1);
-    if (
-      props.page + 1 ===
-      Math.ceil(props.itemsCount / Number(props.perPage))
-    ) {
+    setPage(page + 1);
+    if (page + 1 === Math.ceil(itemsCount / Number(perPage))) {
       setLast(true);
       setNext(true);
     }
     setFirst(false);
     setPrev(false);
-    navigate(`/?search=${props.value}&page=${props.page + 1}`);
+    navigate(`/?search=${value}&page=${page + 1}`);
   }
 
   function prevPage() {
-    if (props.perPage === '5') {
-      if (props.page % 2 === 1) {
-        console.log(count);
-        loadingData(props.page - (count + 1));
+    if (perPage === '5') {
+      if (page % 2 === 1) {
+        loadingData(page - (count + 1));
         setCount(count - 1);
       }
-    } else loadingData(props.page - 1);
+    } else loadingData(page - 1);
 
-    props.setPage(props.page - 1);
-    if (props.page - 1 === 1) {
+    setPage(page - 1);
+    if (page - 1 === 1) {
       setFirst(true);
       setPrev(true);
     }
     setLast(false);
     setNext(false);
-    navigate(`/?search=${props.value}&page=${props.page - 1}`);
+    navigate(`/?search=${value}&page=${page - 1}`);
   }
 
   function startPage() {
     loadingData(1);
     setCount(0);
-    props.setPage(1);
+    setPage(1);
     setFirst(true);
     setPrev(true);
     setNext(false);
     setLast(false);
-    navigate(`/?search=${props.value}&page=1`);
+    navigate(`/?search=${value}&page=1`);
   }
 
   function lastPage() {
-    loadingData(Math.ceil(props.itemsCount / 10));
-    setCount(props.itemsCount / 10);
-    props.setPage(Math.ceil(props.itemsCount / Number(props.perPage)));
+    loadingData(Math.ceil(itemsCount / 10));
+    setCount(itemsCount / 10);
+    setPage(Math.ceil(itemsCount / Number(perPage)));
     setFirst(false);
     setPrev(false);
     setNext(true);
     setLast(true);
     navigate(
-      `/?search=${props.value}&page=${Math.ceil(
-        props.itemsCount / Number(props.perPage)
-      )}`
+      `/?search=${value}&page=${Math.ceil(itemsCount / Number(perPage))}`
     );
   }
 
   function handleClick(event: React.ChangeEvent<HTMLSelectElement>) {
-    props.setPerPage(event.target.value);
+    setPerPage(event.target.value);
     startPage();
   }
 
@@ -143,7 +132,7 @@ function Pagination(props: {
       >
         {toPrev}
       </button>
-      <h3 className="current-page">{props.page}</h3>
+      <h3 className="current-page">{page}</h3>
       <button
         className="pagination-button"
         onClick={nextPage}
@@ -160,7 +149,7 @@ function Pagination(props: {
       </button>
       <select
         className="pagination-select"
-        defaultValue={props.perPage}
+        defaultValue={perPage}
         onChange={handleClick}
       >
         <option value={10}>10</option>
