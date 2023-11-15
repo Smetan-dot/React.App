@@ -4,9 +4,9 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader/Loader';
 import Search from '../components/Search/Search';
 import Results, { Planet } from '../components/Results/Results';
-import loadData from '../components/Api/planetRequest';
 import Pagination from '../components/Pagination/Pagination';
 import { MainContext } from '../context/Context';
+import { useGetPlanetsQuery } from '../store/api';
 
 function Main() {
   const [url, setUrl] = useState(checkSearch());
@@ -32,10 +32,16 @@ function Main() {
     return '';
   }
 
+  const { data: planets = [], isFetching } = useGetPlanetsQuery(page);
+
   useEffect(() => {
-    loadData(url, setItems, setDataIsLoaded, setItemsCount, setPagination);
-    navigate(`/?search=${value}&page=1`);
-  }, []);
+    if (!isFetching) {
+      setItems(planets.results);
+      setItemsCount(planets.count);
+      setPagination(true);
+    }
+    navigate(`/?search=${value}&page=${page}`);
+  }, [isFetching, page]);
 
   return (
     <div className="app-container">
@@ -63,7 +69,7 @@ function Main() {
         <Search></Search>
 
         {!pagination ? '' : <Pagination></Pagination>}
-        {!dataIsLoaded ? (
+        {isFetching ? (
           <Loader></Loader>
         ) : (
           <div className="main-wrapper">

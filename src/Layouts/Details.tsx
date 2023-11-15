@@ -1,10 +1,10 @@
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import loadDetails from '../components/Api/detailsRequest';
 import Loader from '../components/Loader/Loader';
 import DetailsDesc from '../components/DetailsDesc/DetailsDesc';
 import { AppContext, DetailsContext } from '../context/Context';
 import './Details.css';
+import { useGetDetailsQuery } from '../store/api';
 
 export type DetailsPlanet = {
   name: string;
@@ -36,9 +36,14 @@ function Details(props: { refWrap: React.RefObject<HTMLDivElement> }) {
   const { id } = useContext(AppContext);
   const navigate = useNavigate();
 
+  const { data: details, isFetching } = useGetDetailsQuery(id);
+
   useEffect(() => {
-    loadDetails(id, setState, setDetailsIsLoaded);
-  }, []);
+    if (!isFetching) {
+      setState(details);
+      setDetailsIsLoaded(true);
+    }
+  }, [isFetching]);
 
   const handleClick = (event: MouseEvent) => {
     const target = event.target as Node;

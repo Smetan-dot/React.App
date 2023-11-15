@@ -1,5 +1,4 @@
 import './Pagination.css';
-import loadData from '../Api/planetRequest';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MainContext } from '../../context/Context';
@@ -12,30 +11,8 @@ function Pagination() {
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
 
-  const {
-    url,
-    value,
-    setItems,
-    setDataIsLoaded,
-    itemsCount,
-    setItemsCount,
-    page,
-    setPage,
-    setPagination,
-    perPage,
-    setPerPage,
-  } = useContext(MainContext);
-
-  async function loadingData(page: number) {
-    setDataIsLoaded(false);
-    loadData(
-      `${url}&page=${page}`,
-      setItems,
-      setDataIsLoaded,
-      setItemsCount,
-      setPagination
-    );
-  }
+  const { value, itemsCount, page, setPage, perPage, setPerPage } =
+    useContext(MainContext);
 
   function checkCount(button: boolean) {
     if (itemsCount <= Number(perPage)) return true;
@@ -50,10 +27,9 @@ function Pagination() {
   function nextPage() {
     if (perPage === '5') {
       if (page % 2 === 0) {
-        loadingData(page - count);
         setCount(count + 1);
       }
-    } else loadingData(page + 1);
+    }
 
     setPage(page + 1);
     if (page + 1 === Math.ceil(itemsCount / Number(perPage))) {
@@ -68,10 +44,9 @@ function Pagination() {
   function prevPage() {
     if (perPage === '5') {
       if (page % 2 === 1) {
-        loadingData(page - (count + 1));
         setCount(count - 1);
       }
-    } else loadingData(page - 1);
+    }
 
     setPage(page - 1);
     if (page - 1 === 1) {
@@ -84,7 +59,6 @@ function Pagination() {
   }
 
   function startPage() {
-    loadingData(1);
     setCount(0);
     setPage(1);
     setFirst(true);
@@ -95,7 +69,6 @@ function Pagination() {
   }
 
   function lastPage() {
-    loadingData(Math.ceil(itemsCount / 10));
     setCount(itemsCount / 10);
     setPage(Math.ceil(itemsCount / Number(perPage)));
     setFirst(false);
