@@ -2,6 +2,8 @@ import './Pagination.css';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MainContext } from '../../context/Context';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setPage, changeSelect } from '../../store/slices';
 
 function Pagination() {
   const [first, setFirst] = useState(true);
@@ -11,8 +13,12 @@ function Pagination() {
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
 
-  const { value, itemsCount, page, setPage, perPage, setPerPage } =
-    useContext(MainContext);
+  const { itemsCount } = useContext(MainContext);
+
+  const page = useAppSelector((store) => store.main.page);
+  const perPage = useAppSelector((store) => store.main.perPage);
+  const value = useAppSelector((store) => store.main.value);
+  const dispatch = useAppDispatch();
 
   function checkCount(button: boolean) {
     if (itemsCount <= Number(perPage)) return true;
@@ -31,7 +37,7 @@ function Pagination() {
       }
     }
 
-    setPage(page + 1);
+    dispatch(setPage(page + 1));
     if (page + 1 === Math.ceil(itemsCount / Number(perPage))) {
       setLast(true);
       setNext(true);
@@ -48,7 +54,7 @@ function Pagination() {
       }
     }
 
-    setPage(page - 1);
+    dispatch(setPage(page - 1));
     if (page - 1 === 1) {
       setFirst(true);
       setPrev(true);
@@ -60,7 +66,7 @@ function Pagination() {
 
   function startPage() {
     setCount(0);
-    setPage(1);
+    dispatch(setPage(1));
     setFirst(true);
     setPrev(true);
     setNext(false);
@@ -70,7 +76,7 @@ function Pagination() {
 
   function lastPage() {
     setCount(itemsCount / 10);
-    setPage(Math.ceil(itemsCount / Number(perPage)));
+    dispatch(setPage(Math.ceil(itemsCount / Number(perPage))));
     setFirst(false);
     setPrev(false);
     setNext(true);
@@ -81,7 +87,7 @@ function Pagination() {
   }
 
   function handleClick(event: React.ChangeEvent<HTMLSelectElement>) {
-    setPerPage(event.target.value);
+    dispatch(changeSelect(event.target.value));
     startPage();
   }
 

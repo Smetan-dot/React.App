@@ -3,17 +3,18 @@ import { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader/Loader';
 import Search from '../components/Search/Search';
-import Results, { Planet } from '../components/Results/Results';
+import Results from '../components/Results/Results';
 import Pagination from '../components/Pagination/Pagination';
 import { MainContext } from '../context/Context';
 import { useGetPlanetsQuery } from '../store/api';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
+import { setItems, setMainFlag } from '../store/slices';
 
 function Main() {
   const [url, setUrl] = useState(checkSearch());
-  const [items, setItems] = useState<Planet[]>([]);
+
   const [dataIsLoaded, setDataIsLoaded] = useState(false);
-  const [value, setValue] = useState(checkValue());
-  const [page, setPage] = useState(1);
+
   const [itemsCount, setItemsCount] = useState(0);
   const [perPage, setPerPage] = useState('10');
   const [pagination, setPagination] = useState(false);
@@ -23,25 +24,28 @@ function Main() {
   function checkSearch(): string {
     const url = localStorage.getItem('search');
     if (url !== null) return url;
-    return `https://swapi.dev/api/planets/?search=&page=1`;
+    return `https://swapi.dev/api/planets/?search=${value}&page=1`;
   }
 
-  function checkValue(): string {
-    const input = localStorage.getItem('input');
-    if (input !== null) return input;
-    return '';
-  }
-
-  const { data: planets = [], isFetching } = useGetPlanetsQuery(page);
+  const page = useAppSelector((store) => store.main.page);
+  const value = useAppSelector((store) => store.main.value);
+  const mainFlag = useAppSelector((store) => store.main.mainFlag);
+  const dispatch = useAppDispatch();
+  const queryParams = {
+    page: page,
+    value: value,
+  };
+  const { data: planets = [], isFetching } = useGetPlanetsQuery(queryParams);
 
   useEffect(() => {
     if (!isFetching) {
-      setItems(planets.results);
+      dispatch(setItems(planets.results));
       setItemsCount(planets.count);
       setPagination(true);
+      dispatch(setMainFlag(true));
     }
     navigate(`/?search=${value}&page=${page}`);
-  }, [isFetching, page]);
+  }, [isFetching, page, mainFlag]);
 
   return (
     <div className="app-container">
@@ -50,18 +54,16 @@ function Main() {
         value={{
           url,
           setUrl,
-          items,
-          setItems,
+          //items,
+          //setItems,
           dataIsLoaded,
           setDataIsLoaded,
-          page,
-          setPage,
+          //page,
+          //setPage,
           itemsCount,
           setItemsCount,
           pagination,
           setPagination,
-          value,
-          setValue,
           perPage,
           setPerPage,
         }}

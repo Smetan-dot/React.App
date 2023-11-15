@@ -5,6 +5,8 @@ import DetailsDesc from '../components/DetailsDesc/DetailsDesc';
 import { AppContext, DetailsContext } from '../context/Context';
 import './Details.css';
 import { useGetDetailsQuery } from '../store/api';
+import { setDetailsFlag } from '../store/slices';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 export type DetailsPlanet = {
   name: string;
@@ -32,16 +34,18 @@ function Details(props: { refWrap: React.RefObject<HTMLDivElement> }) {
     population: '',
     url: '',
   });
-  const [detailsIsLoaded, setDetailsIsLoaded] = useState(false);
+
   const { id } = useContext(AppContext);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const detailsFlag = useAppSelector((store) => store.main.detailsFlag);
 
   const { data: details, isFetching } = useGetDetailsQuery(id);
 
   useEffect(() => {
     if (!isFetching) {
       setState(details);
-      setDetailsIsLoaded(true);
+      dispatch(setDetailsFlag(true));
     }
   }, [isFetching]);
 
@@ -49,6 +53,7 @@ function Details(props: { refWrap: React.RefObject<HTMLDivElement> }) {
     const target = event.target as Node;
     if (props.refWrap.current && !props.refWrap.current.contains(target))
       navigate(-1);
+    dispatch(setDetailsFlag(false));
   };
 
   useEffect(() => {
@@ -59,11 +64,9 @@ function Details(props: { refWrap: React.RefObject<HTMLDivElement> }) {
   }, []);
 
   return (
-    <DetailsContext.Provider
-      value={{ state, setState, detailsIsLoaded, setDetailsIsLoaded }}
-    >
+    <DetailsContext.Provider value={{ state, setState }}>
       <div className="details-container">
-        {!detailsIsLoaded ? (
+        {!detailsFlag ? (
           <Loader></Loader>
         ) : (
           <div ref={props.refWrap}>

@@ -1,13 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { initialState } from './slices';
 
 export const planetsApi = createApi({
   reducerPath: 'planetsApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://swapi.dev/api/' }),
   endpoints: (build) => ({
     getPlanets: build.query({
-      query: (page: number) => ({
-        url: `/planets/?search=${initialState.value}&page=${page}`,
+      query: (params: { page: number; value: string }) => ({
+        url: `/planets/?search=${params.value}&page=${params.page}`,
       }),
     }),
     getDetails: build.query({

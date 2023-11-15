@@ -2,7 +2,8 @@ import './Results.css';
 import planet from '../../assets/planet.gif';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import { AppContext, MainContext } from '../../context/Context';
+import { AppContext } from '../../context/Context';
+import { useAppSelector } from '../../store/hooks';
 
 export type Planet = {
   name: string;
@@ -14,7 +15,9 @@ export type Planet = {
 };
 
 function Results() {
-  const { items, perPage, page } = useContext(MainContext);
+  const page = useAppSelector((store) => store.main.page);
+  const items = useAppSelector((store) => store.main.items);
+  const perPage = useAppSelector((store) => store.main.perPage);
   const { setId } = useContext(AppContext);
   if (perPage === '5' && page % 2 === 0)
     return (
