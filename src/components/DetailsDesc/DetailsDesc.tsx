@@ -5,6 +5,7 @@ import { useContext } from 'react';
 function DetailsDesc() {
   const { state } = useContext(DetailsContext);
   const navigate = useNavigate();
+
   return (
     <div>
       <div className="details-header">

@@ -1,7 +1,7 @@
 import './Pagination.css';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MainContext } from '../../context/Context';
+import { AppContext } from '../../context/Context';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setPage, changeSelect, setCount } from '../../store/slices';
 
@@ -12,7 +12,7 @@ function Pagination() {
   const [last, setLast] = useState(false);
   const navigate = useNavigate();
 
-  const { itemsCount } = useContext(MainContext);
+  const { itemsCount } = useContext(AppContext);
 
   const page = useAppSelector((store) => store.main.page);
   const count = useAppSelector((store) => store.main.count);
@@ -96,11 +96,6 @@ function Pagination() {
     startPage();
   }
 
-  const toStart = '<<';
-  const toEnd = '>>';
-  const toNext = '>';
-  const toPrev = '<';
-
   return (
     <div className="pagination-container">
       <button
@@ -108,14 +103,14 @@ function Pagination() {
         onClick={startPage}
         disabled={checkCount2(first)}
       >
-        {toStart}
+        {`<<`}
       </button>
       <button
         className="pagination-button"
         onClick={prevPage}
         disabled={checkCount2(prev)}
       >
-        {toPrev}
+        {`<`}
       </button>
       <h3 className="current-page">{checkPage()}</h3>
       <button
@@ -123,14 +118,14 @@ function Pagination() {
         onClick={nextPage}
         disabled={checkCount(next)}
       >
-        {toNext}
+        {`>`}
       </button>
       <button
         className="pagination-button"
         onClick={lastPage}
         disabled={checkCount(last)}
       >
-        {toEnd}
+        {`>>`}
       </button>
       <select
         className="pagination-select"

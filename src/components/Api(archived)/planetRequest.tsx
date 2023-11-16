@@ -1,4 +1,4 @@
-import { Planet } from '../Results/Results';
+import { Planet } from '../../types/types';
 
 const loadData = async (
   url: string,

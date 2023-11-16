@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Planet } from '../components/Results/Results';
+import { Planet } from '../types/types';
 
 function checkValue(): string {
   const input = localStorage.getItem('input');

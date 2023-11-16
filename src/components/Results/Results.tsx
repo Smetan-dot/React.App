@@ -5,15 +5,6 @@ import { useContext } from 'react';
 import { AppContext } from '../../context/Context';
 import { useAppSelector } from '../../store/hooks';
 
-export type Planet = {
-  name: string;
-  diameter: string;
-  climate: string;
-  terrain: string;
-  population: string;
-  url: string;
-};
-
 function Results() {
   const count = useAppSelector((store) => store.main.count);
   const items = useAppSelector((store) => store.main.items);
