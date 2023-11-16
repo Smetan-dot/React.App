@@ -10,6 +10,7 @@ function checkValue(): string {
 export const initialState = {
   value: checkValue(),
   page: 1,
+  count: 1,
   perPage: '10',
   mainFlag: false,
   detailsFlag: false,
@@ -25,6 +26,9 @@ const mainSlice = createSlice({
     },
     setPage(state, action: PayloadAction<number>) {
       state.page = action.payload;
+    },
+    setCount(state, action: PayloadAction<number>) {
+      state.count = action.payload;
     },
     setItems(state, action: PayloadAction<Planet[]>) {
       state.items = action.payload;
@@ -44,6 +48,7 @@ const mainSlice = createSlice({
 export const {
   changeSelect,
   setPage,
+  setCount,
   setItems,
   setValue,
   setMainFlag,

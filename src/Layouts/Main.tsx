@@ -11,7 +11,7 @@ import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { setItems, setMainFlag } from '../store/slices';
 
 function Main() {
-  const [url, setUrl] = useState(checkSearch());
+  const [url, setUrl] = useState('');
 
   const [dataIsLoaded, setDataIsLoaded] = useState(false);
 
@@ -21,16 +21,11 @@ function Main() {
 
   const navigate = useNavigate();
 
-  function checkSearch(): string {
-    const url = localStorage.getItem('search');
-    if (url !== null) return url;
-    return `https://swapi.dev/api/planets/?search=${value}&page=1`;
-  }
-
   const page = useAppSelector((store) => store.main.page);
   const value = useAppSelector((store) => store.main.value);
   const mainFlag = useAppSelector((store) => store.main.mainFlag);
   const dispatch = useAppDispatch();
+
   const queryParams = {
     page: page,
     value: value,
@@ -44,8 +39,11 @@ function Main() {
       setPagination(true);
       dispatch(setMainFlag(true));
     }
-    navigate(`/?search=${value}&page=${page}`);
   }, [isFetching, page, mainFlag]);
+
+  useEffect(() => {
+    navigate(`/?search=${value}&page=${page}`);
+  }, []);
 
   return (
     <div className="app-container">
