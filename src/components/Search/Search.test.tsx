@@ -1,7 +1,7 @@
-import Main from './Main';
+import Search from './Search';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, it, expect, vitest } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Planet } from '../../types/types';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
@@ -19,27 +19,20 @@ const initialState = {
   items: [] as Planet[],
 };
 
-describe('check Main', () => {
-  it('check rendering heading', async () => {
+describe('check Search', () => {
+  it('check rendering and click button', async () => {
+    const dispatch = vitest.fn();
+    vitest.spyOn(reduxHooks, 'useAppDispatch').mockReturnValue(dispatch);
     vitest.spyOn(reduxHooks, 'useAppSelector').mockReturnValue(initialState);
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <Main />
+          <Search />
         </Provider>
       </BrowserRouter>
     );
-    expect(screen.getByText('Star Wars Planets')).toBeDefined();
-  });
-
-  it('check Loader', () => {
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Main />
-        </Provider>
-      </BrowserRouter>
-    );
-    expect(document.querySelector('.loader-container')).toBeDefined();
+    expect(screen.getByText('Search')).toBeDefined();
+    fireEvent.click(screen.getByText('Search'));
+    expect(dispatch).toHaveBeenCalled();
   });
 });
