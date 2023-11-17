@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1700234865161" clover="3.2.0">
-  <project timestamp="1700234865162" name="All files">
-    <metrics statements="682" coveredstatements="624" conditionals="46" coveredconditionals="30" methods="35" coveredmethods="24" elements="763" coveredelements="678" complexity="0" loc="682" ncloc="682" packages="12" files="15" classes="15"/>
+<coverage generated="1700242699754" clover="3.2.0">
+  <project timestamp="1700242699754" name="All files">
+    <metrics statements="682" coveredstatements="638" conditionals="53" coveredconditionals="37" methods="35" coveredmethods="31" elements="770" coveredelements="706" complexity="0" loc="682" ncloc="682" packages="12" files="15" classes="15"/>
     <package name="src">
       <metrics statements="35" coveredstatements="35" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
       <file name="App.tsx" path="C:\Users\Smetan\Desktop\code\React.App\src\App.tsx">
@@ -654,7 +654,7 @@
       </file>
     </package>
     <package name="src.store">
-      <metrics statements="97" coveredstatements="83" conditionals="6" coveredconditionals="5" methods="12" coveredmethods="5"/>
+      <metrics statements="97" coveredstatements="97" conditionals="13" coveredconditionals="12" methods="12" coveredmethods="12"/>
       <file name="api.ts" path="C:\Users\Smetan\Desktop\code\React.App\src\store\api.ts">
         <metrics statements="20" coveredstatements="20" conditionals="3" coveredconditionals="3" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
@@ -705,15 +705,15 @@
         <line num="15" count="1" type="stmt"/>
       </file>
       <file name="slices.ts" path="C:\Users\Smetan\Desktop\code\React.App\src\store\slices.ts">
-        <metrics statements="57" coveredstatements="43" conditionals="2" coveredconditionals="1" methods="8" coveredmethods="1"/>
+        <metrics statements="57" coveredstatements="57" conditionals="9" coveredconditionals="8" methods="8" coveredmethods="8"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="4" count="7" type="cond" truecount="1" falsecount="0"/>
-        <line num="5" count="7" type="stmt"/>
-        <line num="6" count="7" type="cond" truecount="0" falsecount="1"/>
-        <line num="7" count="7" type="stmt"/>
-        <line num="8" count="7" type="stmt"/>
+        <line num="4" count="8" type="cond" truecount="1" falsecount="0"/>
+        <line num="5" count="8" type="stmt"/>
+        <line num="6" count="8" type="cond" truecount="0" falsecount="1"/>
+        <line num="7" count="8" type="stmt"/>
+        <line num="8" count="8" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
@@ -729,27 +729,27 @@
         <line num="21" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="1" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
+        <line num="24" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
         <line num="45" count="1" type="stmt"/>
         <line num="46" count="1" type="stmt"/>
         <line num="47" count="1" type="stmt"/>
