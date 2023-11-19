@@ -1,4 +1,4 @@
-import { DetailsPlanet } from '../../Layouts/Details';
+import { DetailsPlanet } from '../../types/types';
 
 const loadDetails = async (
   id: number,

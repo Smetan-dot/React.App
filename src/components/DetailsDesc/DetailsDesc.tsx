@@ -1,10 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import { DetailsContext } from '../../context/Context';
 import { useContext } from 'react';
+import { setDetailsFlag } from '../../store/slices';
+import { useAppDispatch } from '../../store/hooks';
 
 function DetailsDesc() {
   const { state } = useContext(DetailsContext);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   return (
     <div>
       <div className="details-header">
@@ -13,6 +17,7 @@ function DetailsDesc() {
           className="details-close"
           onClick={() => {
             navigate(-1);
+            dispatch(setDetailsFlag(false));
           }}
         >
           x
