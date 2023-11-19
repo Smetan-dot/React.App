@@ -1,5 +1,4 @@
 import { useEffect, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Loader from '../../components/Loader/Loader';
 import DetailsDesc from '../../components/DetailsDesc/DetailsDesc';
 import { AppContext, DetailsContext } from '../../context/Context';
@@ -23,7 +22,6 @@ function Details(props: { refWrap: React.RefObject<HTMLDivElement> }) {
   });
 
   const { id } = useContext(AppContext);
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const detailsFlag = useAppSelector((store) => store.main.detailsFlag);
 
@@ -35,20 +33,6 @@ function Details(props: { refWrap: React.RefObject<HTMLDivElement> }) {
       dispatch(setDetailsFlag(true));
     }
   }, [isFetching]);
-
-  useEffect(() => {
-    document.addEventListener('click', handleClick);
-    return () => {
-      document.removeEventListener('click', handleClick);
-    };
-  }, []);
-
-  const handleClick = (event: MouseEvent) => {
-    const target = event.target as Node;
-    if (props.refWrap.current && !props.refWrap.current.contains(target))
-      navigate(-1);
-    dispatch(setDetailsFlag(false));
-  };
 
   return (
     <DetailsContext.Provider value={{ state, setState }}>
