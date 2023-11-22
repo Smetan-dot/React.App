@@ -1,15 +1,14 @@
-import planet from '../../assets/planet.gif';
-import { Link } from 'react-router-dom';
-import { useContext } from 'react';
-import { AppContext } from '../../context/Context';
+import Link from 'next/link';
 import { Planet } from '../../types/types';
+import { setId } from '@/store/slices';
+import { useAppDispatch } from '@/store/hooks';
 
 function Card(props: { item: Planet }) {
-  const { setId } = useContext(AppContext);
+  const dispatch = useAppDispatch();
   return (
     <div>
       <h3 className="subhead">
-        <img src={planet} alt="planet" />
+        <img src="/planet.gif" alt="planet" />
         {props.item.name}
       </h3>
       <ul className="results-descripsion">
@@ -19,9 +18,9 @@ function Card(props: { item: Planet }) {
         <li>Population: {props.item.population}</li>
       </ul>
       <Link
-        to={`/details/${props.item.url.split('/').at(-2)}`}
+        href={`/details/${props.item.url.split('/').at(-2)}`}
         onClick={() => {
-          setId(Number(props.item.url.split('/').at(-2)));
+          dispatch(setId(Number(props.item.url.split('/').at(-2))));
         }}
       >
         Learn more

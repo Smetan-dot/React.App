@@ -1,7 +1,4 @@
-import './Pagination.css';
-import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../../context/Context';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setPage, changeSelect, setCount } from '../../store/slices';
 
@@ -10,14 +7,11 @@ function Pagination() {
   const [prev, setPrev] = useState(true);
   const [next, setNext] = useState(false);
   const [last, setLast] = useState(false);
-  const navigate = useNavigate();
-
-  const { itemsCount } = useContext(AppContext);
 
   const page = useAppSelector((store) => store.main.page);
   const count = useAppSelector((store) => store.main.count);
   const perPage = useAppSelector((store) => store.main.perPage);
-  const value = useAppSelector((store) => store.main.value);
+  const itemsCount = useAppSelector((store) => store.main.itemsCount);
   const dispatch = useAppDispatch();
 
   function checkPage() {
@@ -49,7 +43,6 @@ function Pagination() {
     }
     setFirst(false);
     setPrev(false);
-    navigate(`/?search=${value}&page=${checkPage() + 1}`);
   }
 
   function prevPage() {
@@ -66,7 +59,6 @@ function Pagination() {
     }
     setLast(false);
     setNext(false);
-    navigate(`/?search=${value}&page=${checkPage() - 1}`);
   }
 
   function startPage() {
@@ -76,7 +68,6 @@ function Pagination() {
     setPrev(true);
     setNext(false);
     setLast(false);
-    navigate(`/?search=${value}&page=1`);
   }
 
   function lastPage() {
@@ -86,9 +77,6 @@ function Pagination() {
     setPrev(false);
     setNext(true);
     setLast(true);
-    navigate(
-      `/?search=${value}&page=${Math.ceil(itemsCount / Number(perPage))}`
-    );
   }
 
   function handleClick(event: React.ChangeEvent<HTMLSelectElement>) {

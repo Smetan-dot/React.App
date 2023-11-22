@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import './Search.css';
-import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { setValue, setMainFlag, setPage, setCount } from '../../store/slices';
 
@@ -8,7 +6,6 @@ function Search() {
   const value = useAppSelector((store) => store.main.value);
   const [input, setInput] = useState(value);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   async function handleClick() {
     localStorage.setItem('input', input);
@@ -16,7 +13,6 @@ function Search() {
     dispatch(setValue(input));
     dispatch(setCount(1));
     dispatch(setPage(1));
-    navigate(`/?search=${input}&page=1`);
   }
 
   return (

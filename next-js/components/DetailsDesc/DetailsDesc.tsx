@@ -1,38 +1,36 @@
-import { useNavigate } from 'react-router-dom';
-import { DetailsContext } from '../../context/Context';
-import { useContext } from 'react';
 import { setDetailsFlag } from '../../store/slices';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useRouter } from 'next/router';
 
 function DetailsDesc() {
-  const { state } = useContext(DetailsContext);
-  const navigate = useNavigate();
+  const details = useAppSelector((store) => store.main.details);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   return (
     <div>
       <div className="details-header">
-        <h2 className="details-head">{state.name}</h2>
+        <h2 className="details-head">{details.name}</h2>
         <button
           className="details-close"
           onClick={() => {
-            navigate(-1);
             dispatch(setDetailsFlag(false));
+            router.back();
           }}
         >
           x
         </button>
       </div>
       <ul className="details-descripsion">
-        <li>Rotation period: {state.rotation_period}</li>
-        <li>Orbital period: {state.orbital_period}</li>
-        <li>Diameter: {state.diameter}</li>
-        <li>Climate: {state.climate}</li>
-        <li>Gravity: {state.gravity}</li>
-        <li>Terrain: {state.terrain}</li>
-        <li>Surface water: {state.surface_water}</li>
-        <li>Population: {state.population}</li>
-        <li>URL: {state.url}</li>
+        <li>Rotation period: {details.rotation_period}</li>
+        <li>Orbital period: {details.orbital_period}</li>
+        <li>Diameter: {details.diameter}</li>
+        <li>Climate: {details.climate}</li>
+        <li>Gravity: {details.gravity}</li>
+        <li>Terrain: {details.terrain}</li>
+        <li>Surface water: {details.surface_water}</li>
+        <li>Population: {details.population}</li>
+        <li>URL: {details.url}</li>
       </ul>
     </div>
   );
