@@ -1,17 +1,13 @@
-import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setPage, changeSelect, setCount } from '../../store/slices';
+import Router from 'next/router';
 
 function Pagination() {
-  const [first, setFirst] = useState(true);
-  const [prev, setPrev] = useState(true);
-  const [next, setNext] = useState(false);
-  const [last, setLast] = useState(false);
-
   const page = useAppSelector((store) => store.main.page);
   const count = useAppSelector((store) => store.main.count);
   const perPage = useAppSelector((store) => store.main.perPage);
   const itemsCount = useAppSelector((store) => store.main.itemsCount);
+  const value = useAppSelector((store) => store.main.value);
   const dispatch = useAppDispatch();
 
   function checkPage() {
@@ -19,64 +15,50 @@ function Pagination() {
     return page;
   }
 
-  function checkCount(button: boolean) {
-    if (itemsCount <= Number(perPage)) return true;
-    return button;
-  }
-
-  function checkCount2(button: boolean) {
-    if (checkPage() === 1) return true;
-    return button;
-  }
-
   function nextPage() {
+    if (page === itemsCount / 10) return;
+
     if (perPage === '5') {
       dispatch(setCount(count + 1));
       if (count % 2 === 0) {
         dispatch(setPage(page + 1));
+        Router.push(`/?search=${value}&page=${page + 1}`);
       }
-    } else dispatch(setPage(page + 1));
-
-    if (checkPage() + 1 === Math.ceil(itemsCount / Number(perPage))) {
-      setLast(true);
-      setNext(true);
+    } else {
+      dispatch(setPage(page + 1));
+      Router.push(`/?search=${value}&page=${page + 1}`);
     }
-    setFirst(false);
-    setPrev(false);
   }
 
   function prevPage() {
+    if (page === 1) return;
+
     if (perPage === '5') {
       dispatch(setCount(count - 1));
       if (count % 2 === 1) {
         dispatch(setPage(page - 1));
+        Router.push(`/?search=${value}&page=${page - 1}`);
       }
-    } else dispatch(setPage(page - 1));
-
-    if (checkPage() - 1 === 1) {
-      setFirst(true);
-      setPrev(true);
+    } else {
+      dispatch(setPage(page - 1));
+      Router.push(`/?search=${value}&page=${page - 1}`);
     }
-    setLast(false);
-    setNext(false);
   }
 
   function startPage() {
+    if (page === 1) return;
+
     dispatch(setCount(1));
     dispatch(setPage(1));
-    setFirst(true);
-    setPrev(true);
-    setNext(false);
-    setLast(false);
+    Router.push(`/?search=${value}&page=${1}`);
   }
 
   function lastPage() {
+    if (page === itemsCount / 10) return;
+
     dispatch(setCount(Math.ceil(itemsCount / Number(perPage))));
     dispatch(setPage(itemsCount / 10));
-    setFirst(false);
-    setPrev(false);
-    setNext(true);
-    setLast(true);
+    Router.push(`/?search=${value}&page=${itemsCount / 10}`);
   }
 
   function handleClick(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -86,33 +68,17 @@ function Pagination() {
 
   return (
     <div className="pagination-container">
-      <button
-        className="pagination-button"
-        onClick={startPage}
-        disabled={checkCount2(first)}
-      >
+      <button className="pagination-button" onClick={startPage}>
         {`<<`}
       </button>
-      <button
-        className="pagination-button"
-        onClick={prevPage}
-        disabled={checkCount2(prev)}
-      >
+      <button className="pagination-button" onClick={prevPage}>
         {`<`}
       </button>
       <h3 className="current-page">{checkPage()}</h3>
-      <button
-        className="pagination-button"
-        onClick={nextPage}
-        disabled={checkCount(next)}
-      >
+      <button className="pagination-button" onClick={nextPage}>
         {`>`}
       </button>
-      <button
-        className="pagination-button"
-        onClick={lastPage}
-        disabled={checkCount(last)}
-      >
+      <button className="pagination-button" onClick={lastPage}>
         {`>>`}
       </button>
       <select

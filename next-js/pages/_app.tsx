@@ -9,11 +9,16 @@ import { Provider } from 'react-redux';
 import { store } from '../store/index';
 import { useProgress } from '../components/progress/Progress';
 import Loader from '@/components/Loader/Loader';
+import Head from 'next/head';
 
 export default function App({ Component, pageProps }: AppProps) {
   const { isPageLoading } = useProgress();
   return (
     <>
+      <Head>
+        <link rel="shortcut icon" href="/chewbacca_icon-icons.com_76942.svg" />
+        <title>Star Wars Planets</title>
+      </Head>
       {isPageLoading ? (
         <Loader />
       ) : (
