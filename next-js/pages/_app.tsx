@@ -7,11 +7,20 @@ import '../styles/Details.css';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { store } from '../store/index';
+import { useProgress } from '../components/progress/Progress';
+import Loader from '@/components/Loader/Loader';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const { isPageLoading } = useProgress();
   return (
-    <Provider store={store}>
-      <Component {...pageProps} />;
-    </Provider>
+    <>
+      {isPageLoading ? (
+        <Loader />
+      ) : (
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
+      )}
+    </>
   );
 }
