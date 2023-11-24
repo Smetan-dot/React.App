@@ -8,8 +8,12 @@ import {
   setPage,
   setValue,
   changeSelect,
+  setId,
+  setItemsCount,
+  setDetails,
 } from './slices';
-import { planets } from '../components/FakeData/Data';
+import { planets, details } from '../components/FakeData/Data';
+import { DetailsPlanet } from '@/types/types';
 
 describe('check actions', () => {
   const initialState = {
@@ -20,6 +24,9 @@ describe('check actions', () => {
     mainFlag: false,
     detailsFlag: false,
     items: [],
+    id: 1,
+    itemsCount: 0,
+    details: {} as DetailsPlanet,
   };
   it('return initial state when passed empty event', () => {
     const result = mainReduser(undefined, { type: '' });
@@ -59,5 +66,20 @@ describe('check actions', () => {
     const action = { type: changeSelect.type, payload: '5' };
     const result = mainReduser(initialState, action);
     expect(result.perPage).toEqual('5');
+  });
+  it('change id by "setId"', () => {
+    const action = { type: setId.type, payload: 2 };
+    const result = mainReduser(initialState, action);
+    expect(result.id).toEqual(2);
+  });
+  it('change itemsCount by "setItemsCount"', () => {
+    const action = { type: setItemsCount.type, payload: 60 };
+    const result = mainReduser(initialState, action);
+    expect(result.itemsCount).toEqual(60);
+  });
+  it('change details by "setDetails"', () => {
+    const action = { type: setDetails.type, payload: details };
+    const result = mainReduser(initialState, action);
+    expect(result.details).toEqual(details);
   });
 });

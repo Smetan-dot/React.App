@@ -11,7 +11,6 @@ export const initialState = {
   items: [] as Planet[],
   id: 1,
   itemsCount: 0,
-  pagination: false,
   details: {} as DetailsPlanet,
 };
 
@@ -46,9 +45,6 @@ const mainSlice = createSlice({
     setItemsCount(state, action: PayloadAction<number>) {
       state.itemsCount = action.payload;
     },
-    setPagination(state, action: PayloadAction<boolean>) {
-      state.pagination = action.payload;
-    },
     setDetails(state, action: PayloadAction<DetailsPlanet>) {
       state.details = action.payload;
     },
@@ -65,7 +61,6 @@ export const {
   setDetailsFlag,
   setId,
   setItemsCount,
-  setPagination,
   setDetails,
 } = mainSlice.actions;
 export const mainReduser = mainSlice.reducer;
