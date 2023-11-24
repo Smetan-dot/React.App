@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Planet } from '../../types/types';
-import { setId } from '@/store/slices';
-import { useAppDispatch } from '@/store/hooks';
+import { setId } from '../../store/slices';
+import { useAppDispatch } from '../../store/hooks';
 
 function Card(props: { item: Planet }) {
   const dispatch = useAppDispatch();

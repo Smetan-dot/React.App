@@ -1,13 +1,19 @@
 import Search from './Search';
-import { BrowserRouter } from 'react-router-dom';
 import { describe, it, expect, vitest } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { Planet } from '../../types/types';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 import * as reduxHooks from '../../store/hooks';
 
 vitest.mock('../../store/hooks');
+vitest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      push: () => null,
+    };
+  },
+}));
 
 const initialState = {
   value: '',
@@ -25,14 +31,13 @@ describe('check Search', () => {
     vitest.spyOn(reduxHooks, 'useAppDispatch').mockReturnValue(dispatch);
     vitest.spyOn(reduxHooks, 'useAppSelector').mockReturnValue(initialState);
     render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Search />
-        </Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <Search />
+      </Provider>
     );
     expect(screen.getByText('Search')).toBeDefined();
     fireEvent.click(screen.getByText('Search'));
     expect(dispatch).toHaveBeenCalled();
+    cleanup();
   });
 });

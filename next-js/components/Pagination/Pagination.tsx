@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setPage, changeSelect, setCount } from '../../store/slices';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 
 function Pagination() {
   const page = useAppSelector((store) => store.main.page);
@@ -9,6 +9,7 @@ function Pagination() {
   const itemsCount = useAppSelector((store) => store.main.itemsCount);
   const value = useAppSelector((store) => store.main.value);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   function checkPage() {
     if (perPage === '5') return count;
@@ -22,11 +23,11 @@ function Pagination() {
       dispatch(setCount(count + 1));
       if (count % 2 === 0) {
         dispatch(setPage(page + 1));
-        Router.push(`/?search=${value}&page=${page + 1}`);
+        router.push(`/?search=${value}&page=${page + 1}`);
       }
     } else {
       dispatch(setPage(page + 1));
-      Router.push(`/?search=${value}&page=${page + 1}`);
+      router.push(`/?search=${value}&page=${page + 1}`);
     }
   }
 
@@ -37,11 +38,11 @@ function Pagination() {
       dispatch(setCount(count - 1));
       if (count % 2 === 1) {
         dispatch(setPage(page - 1));
-        Router.push(`/?search=${value}&page=${page - 1}`);
+        router.push(`/?search=${value}&page=${page - 1}`);
       }
     } else {
       dispatch(setPage(page - 1));
-      Router.push(`/?search=${value}&page=${page - 1}`);
+      router.push(`/?search=${value}&page=${page - 1}`);
     }
   }
 
@@ -50,7 +51,7 @@ function Pagination() {
 
     dispatch(setCount(1));
     dispatch(setPage(1));
-    Router.push(`/?search=${value}&page=${1}`);
+    router.push(`/?search=${value}&page=${1}`);
   }
 
   function lastPage() {
@@ -58,7 +59,7 @@ function Pagination() {
 
     dispatch(setCount(Math.ceil(itemsCount / Number(perPage))));
     dispatch(setPage(Math.ceil(itemsCount / 10)));
-    Router.push(`/?search=${value}&page=${Math.ceil(itemsCount / 10)}`);
+    router.push(`/?search=${value}&page=${Math.ceil(itemsCount / 10)}`);
   }
 
   function handleClick(event: React.ChangeEvent<HTMLSelectElement>) {

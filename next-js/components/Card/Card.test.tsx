@@ -1,43 +1,29 @@
 import Card from './Card';
-import { BrowserRouter } from 'react-router-dom';
 import { describe, it, expect, vitest } from 'vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 import { planets } from '../FakeData/Data';
-import { AppContext } from '../../context/Context';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
+import * as reduxHooks from '../../store/hooks';
 
-const itemsCount = 0;
-const setItemsCount = () => {};
-const pagination = false;
-const setPagination = () => {};
-const id = 1;
-const setId = vitest.fn();
+vitest.mock('../../store/hooks');
 
 describe('check Card', () => {
   it('render Card', async () => {
+    const dispatch = vitest.fn();
+    vitest.spyOn(reduxHooks, 'useAppDispatch').mockReturnValue(dispatch);
     render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <AppContext.Provider
-            value={{
-              id,
-              setId,
-              itemsCount,
-              setItemsCount,
-              pagination,
-              setPagination,
-            }}
-          >
-            <Card item={planets[0]} />
-          </AppContext.Provider>
-        </Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <Card item={planets[0]} />
+      </Provider>
     );
     expect(screen.getByText(/Diameter/)).toBeDefined();
+    expect(screen.getByText(/Climate/)).toBeDefined();
+    expect(screen.getByText(/Terrain/)).toBeDefined();
+    expect(screen.getByText(/Population/)).toBeDefined();
     await userEvent.click(screen.getByText(/Learn more/));
-    expect(setId).toHaveBeenCalled();
+    expect(dispatch).toHaveBeenCalled();
     cleanup();
   });
 });

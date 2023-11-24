@@ -1,20 +1,18 @@
-import { BrowserRouter } from 'react-router-dom';
 import { it, expect, describe, vitest } from 'vitest';
 import { cleanup, render, screen, fireEvent } from '@testing-library/react';
 import Pagination from './Pagination';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 import * as reduxHooks from '../../store/hooks';
-import { AppContext } from '../../context/Context';
 
 vitest.mock('../../store/hooks');
-
-const itemsCount = 0;
-const setItemsCount = () => {};
-const pagination = false;
-const setPagination = () => {};
-const id = 1;
-const setId = () => {};
+vitest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      push: () => null,
+    };
+  },
+}));
 
 describe('check Pagination', async () => {
   it('check 4 buttons and select', async () => {
@@ -22,22 +20,9 @@ describe('check Pagination', async () => {
     vitest.spyOn(reduxHooks, 'useAppSelector');
     vitest.spyOn(reduxHooks, 'useAppDispatch').mockReturnValue(dispatch);
     render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <AppContext.Provider
-            value={{
-              id,
-              setId,
-              itemsCount,
-              setItemsCount,
-              pagination,
-              setPagination,
-            }}
-          >
-            <Pagination />
-          </AppContext.Provider>
-        </Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <Pagination />
+      </Provider>
     );
     expect(screen.getAllByRole('button')).toHaveLength(4);
     expect(screen.getAllByRole('combobox')).toBeDefined();

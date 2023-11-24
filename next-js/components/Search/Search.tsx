@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { setValue, setMainFlag, setPage, setCount } from '../../store/slices';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 
 function Search() {
+  const router = useRouter();
   function checkValue(): string {
     const input = localStorage.getItem('input');
     if (input !== null) return input;
@@ -19,7 +20,7 @@ function Search() {
     dispatch(setValue(input));
     dispatch(setCount(1));
     dispatch(setPage(1));
-    Router.push(`/?search=${input}&page=1`);
+    router.push(`/?search=${input}&page=1`);
   }
 
   useEffect(() => {
