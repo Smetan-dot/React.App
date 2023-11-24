@@ -16,7 +16,7 @@ function Pagination() {
   }
 
   function nextPage() {
-    if (page === itemsCount / 10) return;
+    if (page === Math.ceil(itemsCount / 10)) return;
 
     if (perPage === '5') {
       dispatch(setCount(count + 1));
@@ -54,11 +54,11 @@ function Pagination() {
   }
 
   function lastPage() {
-    if (page === itemsCount / 10) return;
+    if (page === Math.ceil(itemsCount / 10)) return;
 
     dispatch(setCount(Math.ceil(itemsCount / Number(perPage))));
-    dispatch(setPage(itemsCount / 10));
-    Router.push(`/?search=${value}&page=${itemsCount / 10}`);
+    dispatch(setPage(Math.ceil(itemsCount / 10)));
+    Router.push(`/?search=${value}&page=${Math.ceil(itemsCount / 10)}`);
   }
 
   function handleClick(event: React.ChangeEvent<HTMLSelectElement>) {

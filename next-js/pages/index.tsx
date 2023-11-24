@@ -2,21 +2,16 @@ import { useEffect } from 'react';
 import Search from '../components/Search/Search';
 import Results from '../components/Results/Results';
 import Pagination from '../components/Pagination/Pagination';
-import { useAppSelector, useAppDispatch } from '../store/hooks';
-import {
-  setItems,
-  setMainFlag,
-  setValue,
-  setItemsCount,
-} from '../store/slices';
+import { useAppDispatch } from '../store/hooks';
+import { setItems, setMainFlag, setItemsCount } from '../store/slices';
 import { Planet } from '@/types/types';
 
 export const getServerSideProps = async (context: {
-  query: { value: string; page: number };
+  query: { search: string; page: number };
 }) => {
-  const { value = '', page = 1 } = context.query;
+  const { search = '', page = 1 } = context.query;
   const response = await fetch(
-    `https://swapi.dev/api/planets/?search=${value}&page=${page}`
+    `https://swapi.dev/api/planets/?search=${search}&page=${page}`
   );
   const data = await response.json();
   return {
@@ -27,20 +22,14 @@ export const getServerSideProps = async (context: {
   };
 };
 
-function Main({ planets, count }: { planets: Planet[]; count: number }) {
-  const page = useAppSelector((store) => store.main.page);
+function Main(props: { planets: Planet[]; count: number }) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setItems(planets));
-    dispatch(setItemsCount(count));
+    dispatch(setItems(props.planets));
+    dispatch(setItemsCount(props.count));
     dispatch(setMainFlag(true));
-  }, [page]);
-
-  useEffect(() => {
-    const input = localStorage.getItem('input');
-    if (input !== null) dispatch(setValue(input));
-  }, []);
+  });
 
   return (
     <div className="app-container">
