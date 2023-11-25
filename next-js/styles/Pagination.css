@@ -6,9 +6,35 @@
     padding-bottom: 20px;
 }
 
-.pagination-button {
+.pagination-button-left, .pagination-button-right {
     padding: 5px 15px;
     cursor: pointer;
+    transform-style: preserve-3d;
+    transition: 0.3s;
+}
+
+.pagination-button-left:after, .pagination-button-right:after {
+	top: -100%;
+	left: 0;
+	width: 100%;
+    padding: 6px 0;
+	position: absolute;
+	background: #555555;
+	transform-origin: left bottom;
+	transform: rotateX(90deg);
+}
+
+.pagination-button-left:after {
+    content: '=>';
+}
+
+.pagination-button-right:after {
+    content: '<=';
+}
+
+.disable {
+    transform-origin: center bottom;
+	transform: rotateX(-90deg) translateY(100%);
 }
 
 .pagination-button:disabled {

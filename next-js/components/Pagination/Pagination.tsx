@@ -67,19 +67,34 @@ function Pagination() {
     startPage();
   }
 
+  function handleHoverLeft(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    const target = event.target as HTMLButtonElement;
+    if (page === 1) target.classList.add('disable');
+  }
+
+  function handleHoverRight(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    const target = event.target as HTMLButtonElement;
+    if (page === Math.ceil(itemsCount / 10)) target.classList.add('disable');
+  }
+
+  function handleOut(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    const target = event.target as HTMLButtonElement;
+    target.classList.remove('disable');
+  }
+
   return (
     <div className="pagination-container">
-      <button className="pagination-button" onClick={startPage}>
+      <button className="pagination-button-left" onClick={startPage} onMouseOver={handleHoverLeft} onMouseOut={handleOut}>
         {`<<`}
       </button>
-      <button className="pagination-button" onClick={prevPage}>
+      <button className="pagination-button-left" onClick={prevPage} onMouseOver={handleHoverLeft} onMouseOut={handleOut}>
         {`<`}
       </button>
       <h3 className="current-page">{checkPage()}</h3>
-      <button className="pagination-button" onClick={nextPage}>
+      <button className="pagination-button-right" onClick={nextPage} onMouseOver={handleHoverRight} onMouseOut={handleOut}>
         {`>`}
       </button>
-      <button className="pagination-button" onClick={lastPage}>
+      <button className="pagination-button-right" onClick={lastPage} onMouseOver={handleHoverRight} onMouseOut={handleOut}>
         {`>>`}
       </button>
       <select
