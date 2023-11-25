@@ -16,7 +16,7 @@
     "coverage": "vitest --coverage"
   },
   "lint-staged": {
-    "**/*.{ts,tsx}": [
+    "*.{ts,tsx}": [
       "npm run lint:fix",
       "npm run format:fix"
     ]
