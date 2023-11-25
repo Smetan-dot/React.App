@@ -10,7 +10,7 @@
     "lint:fix": "eslint . --ext ts,tsx --fix --color",
     "format:fix": "prettier --write **/*.tsx",
     "preview": "vite preview",
-    "prepare": "next husky install",
+    "prepare": "husky install",
     "test": "vitest",
     "pre-push": "vitest --run",
     "coverage": "vitest --coverage"
