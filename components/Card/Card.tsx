@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Planet } from '../../types/types';
 import { setId } from '../../store/slices';
 import { useAppDispatch } from '../../store/hooks';
@@ -8,7 +9,7 @@ function Card(props: { item: Planet }) {
   return (
     <div>
       <h3 className="subhead">
-        <img src="/planet.gif" alt="planet" />
+        <Image src="/planet.gif" alt="planet" width={30} height={30} />
         {props.item.name}
       </h3>
       <ul className="results-descripsion">
