@@ -1,45 +1,78 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export const initialState = {
-  value: '',
-  page: 1,
-  count: 1,
-  perPage: '10',
-  mainFlag: false,
-  detailsFlag: false,
+  unControl: {
+    name: '',
+    age: '',
+    email: '',
+    password: '',
+    country: '',
+    gender: '',
+    image: '',
+    termsFalg: false,
+  },
+  control: {
+    name: '',
+    age: '',
+    email: '',
+    password: '',
+    country: '',
+    gender: '',
+    image: '',
+    termsFalg: false,
+  },
+  countries: [
+    'Belarus',
+    'Ukraine',
+    'Lithuania',
+    'Poland',
+    'Georgia',
+    'Israel',
+    'USA',
+    'Canada',
+    'Germany',
+  ],
 };
 
 const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    changeSelect(state, action: PayloadAction<string>) {
-      state.perPage = action.payload;
+    setNameU(state, action: PayloadAction<string>) {
+      state.unControl.name = action.payload;
     },
-    setPage(state, action: PayloadAction<number>) {
-      state.page = action.payload;
+    setAgeU(state, action: PayloadAction<string>) {
+      state.unControl.age = action.payload;
     },
-    setCount(state, action: PayloadAction<number>) {
-      state.count = action.payload;
+    setEmailU(state, action: PayloadAction<string>) {
+      state.unControl.email = action.payload;
     },
-    setValue(state, action: PayloadAction<string>) {
-      state.value = action.payload;
+    setPasswordU(state, action: PayloadAction<string>) {
+      state.unControl.password = action.payload;
     },
-    setMainFlag(state, action: PayloadAction<boolean>) {
-      state.mainFlag = action.payload;
+    setCountryU(state, action: PayloadAction<string>) {
+      state.unControl.country = action.payload;
     },
-    setDetailsFlag(state, action: PayloadAction<boolean>) {
-      state.detailsFlag = action.payload;
+    setGenderU(state, action: PayloadAction<string>) {
+      state.unControl.gender = action.payload;
+    },
+    setImageU(state, action: PayloadAction<string>) {
+      state.unControl.image = action.payload;
+    },
+    setFlagU(state, action: PayloadAction<boolean>) {
+      state.unControl.termsFalg = action.payload;
     },
   },
 });
 
 export const {
-  changeSelect,
-  setPage,
-  setCount,
-  setValue,
-  setMainFlag,
-  setDetailsFlag,
+  setNameU,
+  setAgeU,
+  setEmailU,
+  setPasswordU,
+  setCountryU,
+  setGenderU,
+  setImageU,
+  setFlagU,
 } = mainSlice.actions;
 export const mainReduser = mainSlice.reducer;

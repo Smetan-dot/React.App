@@ -2,7 +2,7 @@ function Control() {
   const countries = ['a', 'b', 'c'];
   return (
     <>
-      <h1 className="control-heading">Form with useRef</h1>
+      <h1 className="control-heading">React Hook Form</h1>
       <form className="control-form">
         <h2 className="form-heading">Registration form</h2>
         <h4 className="form-description ">

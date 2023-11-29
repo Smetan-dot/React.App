@@ -7,12 +7,40 @@
 }
 
 .main-wrapper {
-    width: 90vw;
+    width: 100%;
     display: flex;
 }
 
 .main-block {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-tile {
+    position: relative;
+    width: 90%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 3px solid orange;
+    padding: 10px;
+    margin-top: 20px;
+    color: orange;
+    line-height: 30px;
+}
+
+.tile-item {
+    display: flex;
+    align-items: center;
+}
+
+.tile-image {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
 }
 
 .main-link {
