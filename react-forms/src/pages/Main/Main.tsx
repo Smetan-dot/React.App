@@ -26,7 +26,9 @@ function Main() {
             <h4 className="tile-item">Password: {password}</h4>
             <h4 className="tile-item">Country: {country}</h4>
             <h4 className="tile-item">Gender: {gender}</h4>
-            <h4 className="tile-item">Reed T&S: {termsFalg.toString()}</h4>
+            <h4 className="tile-item">
+              Reed T&S: {!termsFalg ? '' : termsFalg.toString()}
+            </h4>
             <h4 className="tile-item">
               Image:
               {!objectURL ? '' : <img src={objectURL} className="tile-image" />}

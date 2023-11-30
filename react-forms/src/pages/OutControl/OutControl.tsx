@@ -11,22 +11,26 @@ import {
   setGenderU,
   setImageU,
   setFlagU,
+  setErrors,
 } from '../../store/slice';
-import { convertBase64 } from '../../helpers/Helpers';
+import { convertBase64, SetSchema } from '../../helpers/Helpers';
+import { ValidationError } from 'yup';
 
 function OutControl() {
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
+  const emailConfirmRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const passwordConfirmRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLInputElement>(null);
   const genderRef = useRef<HTMLSelectElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   const flagRef = useRef<HTMLInputElement>(null);
 
   const countries = useAppSelector((store) => store.main.countries);
+  const errors = useAppSelector((store) => store.main.errors);
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
 
   let file: File;
@@ -34,32 +38,49 @@ function OutControl() {
     file = event.target.files![0];
   }
 
+  const schema = SetSchema();
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    dispatch(setNameU(nameRef.current?.value as string));
-    dispatch(setAgeU(ageRef.current?.value as string));
-    dispatch(setEmailU(emailRef.current?.value as string));
-    dispatch(setPasswordU(passwordRef.current?.value as string));
-    dispatch(setCountryU(countryRef.current?.value as string));
-    dispatch(setGenderU(genderRef.current?.value as string));
-    dispatch(setImageU(await convertBase64(file)));
-    dispatch(setFlagU(flagRef.current?.checked as boolean));
-    navigate('/');
+    const formData = {
+      name: nameRef.current?.value,
+      age: ageRef.current?.value,
+      email: emailRef.current?.value,
+      confirmEmail: emailConfirmRef.current?.value,
+      password: passwordRef.current?.value,
+      confirmPassword: passwordConfirmRef.current?.value,
+      country: countryRef.current?.value,
+      gender: genderRef.current?.value,
+      flag: flagRef.current?.checked,
+      image: imageRef.current?.value,
+    };
+    try {
+      await schema.validate(formData, { abortEarly: false });
+      dispatch(setNameU(nameRef.current?.value as string));
+      dispatch(setAgeU(ageRef.current?.value as string));
+      dispatch(setEmailU(emailRef.current?.value as string));
+      dispatch(setPasswordU(passwordRef.current?.value as string));
+      dispatch(setCountryU(countryRef.current?.value as string));
+      dispatch(setGenderU(genderRef.current?.value as string));
+      dispatch(setImageU(await convertBase64(file)));
+      dispatch(setFlagU(flagRef.current?.checked as boolean));
+      dispatch(setErrors([]));
+      navigate('/');
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        dispatch(setErrors(error.errors));
+      }
+    }
   }
 
   return (
     <>
       <h1 className="control-heading">Form with useRef</h1>
-      <form className="control-form" onSubmit={handleSubmit}>
+      <form className="control-form" onSubmit={handleSubmit} noValidate={true}>
         <h2 className="form-heading">Registration form</h2>
         <h4 className="form-description ">
-          !!! All fields must be filled in !!!
+          !!! Use English. All fields must be filled in !!!
         </h4>
-        <p className="form-description">
-          {
-            '(password should contain 1 number, 1 uppercased letter, 1 lowercased letter, 1 special character)'
-          }
-        </p>
         <label className="control-lable">
           <h5 className="input-name">Name:</h5>
           <input type="text" name="name" ref={nameRef} />
@@ -74,7 +95,7 @@ function OutControl() {
         </label>
         <label className="control-lable">
           <h5 className="input-name">Confirm email:</h5>
-          <input type="email" name="confirm-email" />
+          <input type="email" name="confirm-email" ref={emailConfirmRef} />
         </label>
         <label className="control-lable">
           <h5 className="input-name">Password:</h5>
@@ -82,7 +103,11 @@ function OutControl() {
         </label>
         <label className="control-lable">
           <h5 className="input-name">Confirm password:</h5>
-          <input type="password" name="confirm-password" />
+          <input
+            type="password"
+            name="confirm-password"
+            ref={passwordConfirmRef}
+          />
         </label>
         <label className="control-lable">
           <h5 className="input-name">Country:</h5>
@@ -133,6 +158,14 @@ function OutControl() {
           Submit
         </button>
       </form>
+      <p className="errors-block">
+        {errors.map((item, i) => (
+          <span key={i}>
+            {`${i + 1}) ${item}`}
+            <br />
+          </span>
+        ))}
+      </p>
     </>
   );
 }

@@ -32,6 +32,7 @@ export const initialState = {
     'Canada',
     'Germany',
   ],
+  errors: [] as string[],
 };
 
 const mainSlice = createSlice({
@@ -62,6 +63,9 @@ const mainSlice = createSlice({
     setFlagU(state, action: PayloadAction<boolean>) {
       state.unControl.termsFalg = action.payload;
     },
+    setErrors(state, action: PayloadAction<string[]>) {
+      state.errors = action.payload;
+    },
   },
 });
 
@@ -74,5 +78,6 @@ export const {
   setGenderU,
   setImageU,
   setFlagU,
+  setErrors,
 } = mainSlice.actions;
 export const mainReduser = mainSlice.reducer;
