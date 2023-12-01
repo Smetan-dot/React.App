@@ -18,6 +18,10 @@
     align-items: center;
 }
 
+.grey {
+    background-color: rgb(115, 115, 115);
+}
+
 .info-tile {
     position: relative;
     width: 90%;

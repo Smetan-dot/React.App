@@ -13,6 +13,7 @@ import {
   setGenderC,
   setImageC,
   setFlagC,
+  setStyleC,
 } from '../../store/slice';
 
 function Control() {
@@ -28,7 +29,8 @@ function Control() {
 
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid },
+    reset,
     handleSubmit,
   } = useForm({ resolver: yupResolver(schema), mode: 'all' });
   const setData = async (data: FieldValues) => {
@@ -40,6 +42,11 @@ function Control() {
     dispatch(setGenderC(data.gender));
     dispatch(setImageC(await convertBase64(file)));
     dispatch(setFlagC(data.flag));
+    reset();
+    dispatch(setStyleC('grey'));
+    setTimeout(() => {
+      dispatch(setStyleC(''));
+    }, 1500);
     navigate('/');
   };
   return (
@@ -137,8 +144,7 @@ function Control() {
             accept=".png, .jpeg"
             size={100000}
             id="insert-image"
-            {...register('image')}
-            onChange={handleChange}
+            {...register('image', { onChange: handleChange })}
           />
         </label>
         <div className="error-string">
@@ -152,7 +158,7 @@ function Control() {
           <div className="error-string" id="terms-error">
             {errors?.flag && <p>{errors?.flag?.message || 'Error'}</p>}
           </div>
-          <button type="submit" className="submit-button">
+          <button type="submit" className="submit-button" disabled={!isValid}>
             Submit
           </button>
         </div>

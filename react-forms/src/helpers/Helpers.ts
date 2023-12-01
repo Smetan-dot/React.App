@@ -33,7 +33,8 @@ export function SetSchema() {
       .required('enter your name')
       .matches(/(^[A-Z][a-zA-Z]*$)/, {
         message: 'capitalize first letter, use only letters',
-      }),
+      })
+      .required('enter your name'),
     age: yup
       .number()
       .typeError('enter your age')
@@ -42,20 +43,18 @@ export function SetSchema() {
     email: yup.string().email().required('enter your email'),
     confirmEmail: yup
       .string()
-      .email()
       .oneOf([yup.ref('email')], 'emails mismatch')
       .required('confirm your email'),
     password: yup
       .string()
       .required('enter password')
       .password()
-      .minLowercase(1, 'min 1 small letter'),
+      .minLowercase(1, 'at least 1 lowercase letter')
+      .required('enter password'),
     confirmPassword: yup
       .string()
       .required('confirm password')
-      .password()
-      .oneOf([yup.ref('password')], 'passwords mismatch')
-      .minLowercase(1, 'min 1 small letter'),
+      .oneOf([yup.ref('password')], 'passwords mismatch'),
     country: yup
       .string()
       .oneOf(coutries, 'select correct country')
@@ -65,4 +64,48 @@ export function SetSchema() {
     image: yup.mixed().required('select file'),
   });
   return schema;
+}
+
+export function createErrors(arr: string[]) {
+  const errors = {
+    name: '',
+    age: '',
+    email: '',
+    confirmEmail: '',
+    password: '',
+    confirmPassword: '',
+    country: '',
+    gender: '',
+    image: '',
+    flag: '',
+  };
+  arr.map((item) => {
+    if (item === 'capitalize first letter, use only letters')
+      errors.name = item;
+    if (item === 'enter your name') errors.name = item;
+    if (item === 'no negative values') errors.age = item;
+    if (item === 'enter your age') errors.age = item;
+    if (item === 'email must be a valid email') errors.email = item;
+    if (item === 'enter your email') errors.email = item;
+    if (item === 'emails mismatch') errors.confirmEmail = item;
+    if (item === 'confirm your email') errors.confirmEmail = item;
+    if (item === 'at least 1 lowercase letter') errors.password = item;
+    if (item === 'password must contain at least 1 symbol')
+      errors.password = item;
+    if (item === 'password must contain at least 1 number')
+      errors.password = item;
+    if (item === 'password must contain at least 1 uppercase letter')
+      errors.password = item;
+    if (item === 'password must be at least 8 characters')
+      errors.password = item;
+    if (item === 'enter password') errors.password = item;
+    if (item === 'passwords mismatch') errors.confirmPassword = item;
+    if (item === 'confirm password') errors.confirmPassword = item;
+    if (item === 'select correct country') errors.country = item;
+    if (item === 'select country') errors.country = item;
+    if (item === 'select gender') errors.gender = item;
+    if (item === 'check T&S') errors.flag = item;
+    if (item === 'select file') errors.image = item;
+  });
+  return errors;
 }

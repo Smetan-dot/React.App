@@ -14,12 +14,16 @@ function Main() {
     countryC,
     genderC,
     imageC,
-    termsFalgC,
+    termsFlagC,
   } = useAppSelector((store) => store.main.control);
+  const styleU = useAppSelector((store) => store.main.style.uncontroll);
+  const styleC = useAppSelector((store) => store.main.style.control);
+
   let objectUrl;
   let objectUrlC;
   if (image !== '') objectUrl = URL.createObjectURL(base64ToBlob(image));
   if (imageC !== '') objectUrlC = URL.createObjectURL(base64ToBlob(imageC));
+
   return (
     <>
       <h1 className="main-heading">
@@ -31,7 +35,7 @@ function Main() {
           <Link to={'/uncontrol'} className="main-link">
             Stay out control!
           </Link>
-          <div className="info-tile">
+          <div className={`info-tile ${styleU}`}>
             <h4 className="tile-item">Name: {name}</h4>
             <h4 className="tile-item">Age: {age}</h4>
             <h4 className="tile-item">Email: {email}</h4>
@@ -51,7 +55,7 @@ function Main() {
           <Link to={'/react-hook-form'} className="main-link">
             Yes, I{"'"}m control.
           </Link>
-          <div className="info-tile">
+          <div className={`info-tile ${styleC}`}>
             <h4 className="tile-item">Name: {nameC}</h4>
             <h4 className="tile-item">Age: {ageC}</h4>
             <h4 className="tile-item">Email: {emailC}</h4>
@@ -59,7 +63,7 @@ function Main() {
             <h4 className="tile-item">Country: {countryC}</h4>
             <h4 className="tile-item">Gender: {genderC}</h4>
             <h4 className="tile-item">
-              Reed T&S: {!termsFalgC ? '' : termsFalgC.toString()}
+              Reed T&S: {!termsFlagC ? '' : termsFlagC.toString()}
             </h4>
             <h4 className="tile-item">
               Image:

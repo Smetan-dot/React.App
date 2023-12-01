@@ -12,9 +12,11 @@ import {
   setImageU,
   setFlagU,
   setErrors,
+  setStyleU,
 } from '../../store/slice';
-import { convertBase64, SetSchema } from '../../helpers/Helpers';
+import { convertBase64, SetSchema, createErrors } from '../../helpers/Helpers';
 import { ValidationError } from 'yup';
+import { CustomErrors } from '../../types/types';
 
 function OutControl() {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -64,11 +66,16 @@ function OutControl() {
       dispatch(setGenderU(genderRef.current?.value as string));
       dispatch(setImageU(await convertBase64(file)));
       dispatch(setFlagU(flagRef.current?.checked as boolean));
-      dispatch(setErrors([]));
+      dispatch(setErrors({} as CustomErrors));
+      dispatch(setStyleU('grey'));
+      setTimeout(() => {
+        dispatch(setStyleU(''));
+      }, 1500);
       navigate('/');
     } catch (error) {
       if (error instanceof ValidationError) {
-        dispatch(setErrors(error.errors));
+        console.log(file);
+        dispatch(setErrors(createErrors(error.errors)));
       }
     }
   }
@@ -85,22 +92,37 @@ function OutControl() {
           <h5 className="input-name">Name:</h5>
           <input type="text" name="name" ref={nameRef} />
         </label>
+        <div className="error-string">
+          {errors?.name && <p>{errors?.name || 'Error'}</p>}
+        </div>
         <label className="control-lable">
           <h5 className="input-name">Age:</h5>
-          <input type="number" name="age" min={0} ref={ageRef} />
+          <input type="number" name="age" ref={ageRef} />
         </label>
+        <div className="error-string">
+          {errors?.age && <p>{errors?.age || 'Error'}</p>}
+        </div>
         <label className="control-lable">
           <h5 className="input-name">Email:</h5>
           <input type="email" name="email" ref={emailRef} />
         </label>
+        <div className="error-string">
+          {errors?.email && <p>{errors?.email || 'Error'}</p>}
+        </div>
         <label className="control-lable">
           <h5 className="input-name">Confirm email:</h5>
           <input type="email" name="confirm-email" ref={emailConfirmRef} />
         </label>
+        <div className="error-string">
+          {errors?.confirmEmail && <p>{errors?.confirmEmail || 'Error'}</p>}
+        </div>
         <label className="control-lable">
           <h5 className="input-name">Password:</h5>
           <input type="password" name="password" ref={passwordRef} />
         </label>
+        <div className="error-string">
+          {errors?.password && <p>{errors?.password || 'Error'}</p>}
+        </div>
         <label className="control-lable">
           <h5 className="input-name">Confirm password:</h5>
           <input
@@ -109,6 +131,11 @@ function OutControl() {
             ref={passwordConfirmRef}
           />
         </label>
+        <div className="error-string">
+          {errors?.confirmPassword && (
+            <p>{errors?.confirmPassword || 'Error'}</p>
+          )}
+        </div>
         <label className="control-lable">
           <h5 className="input-name">Country:</h5>
           <input
@@ -126,6 +153,9 @@ function OutControl() {
             ))}
           </datalist>
         </label>
+        <div className="error-string">
+          {errors?.country && <p>{errors?.country || 'Error'}</p>}
+        </div>
         <label className="control-lable">
           <h5 className="input-name" id="select-name">
             Gender:
@@ -136,6 +166,9 @@ function OutControl() {
             <option value={'female'}>female</option>
           </select>
         </label>
+        <div className="error-string">
+          {errors?.gender && <p>{errors?.gender || 'Error'}</p>}
+        </div>
         <label className="control-lable">
           <h5 className="input-name" id="input-image">
             Image{'(png or jpeg)'}:
@@ -150,24 +183,22 @@ function OutControl() {
             onChange={handleChange}
           />
         </label>
+        <div className="error-string">
+          {errors?.image && <p>{errors?.image || 'Error'}</p>}
+        </div>
         <div className="submit-block">
           <label className="control-lable" id="input-terms">
             <h5 className="input-name">Accept T&C</h5>
             <input type="checkbox" name="t&c" ref={flagRef} />
           </label>
+          <div className="error-string" id="terms-error">
+            {errors?.flag && <p>{errors?.flag || 'Error'}</p>}
+          </div>
           <button type="submit" className="submit-button">
             Submit
           </button>
         </div>
       </form>
-      <p className="errors-block">
-        {errors.map((item, i) => (
-          <span key={i}>
-            {`${i + 1}) ${item}`}
-            <br />
-          </span>
-        ))}
-      </p>
     </>
   );
 }

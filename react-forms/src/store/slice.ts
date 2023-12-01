@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CustomErrors } from '../types/types';
 
 export const initialState = {
   unControl: {
@@ -19,7 +20,7 @@ export const initialState = {
     countryC: '',
     genderC: '',
     imageC: '',
-    termsFalgC: false,
+    termsFlagC: false,
   },
   countries: [
     'Belarus',
@@ -32,7 +33,11 @@ export const initialState = {
     'Canada',
     'Germany',
   ],
-  errors: [] as string[],
+  errors: {} as CustomErrors,
+  style: {
+    uncontroll: '',
+    control: '',
+  },
 };
 
 const mainSlice = createSlice({
@@ -63,7 +68,7 @@ const mainSlice = createSlice({
     setFlagU(state, action: PayloadAction<boolean>) {
       state.unControl.termsFalg = action.payload;
     },
-    setErrors(state, action: PayloadAction<string[]>) {
+    setErrors(state, action: PayloadAction<CustomErrors>) {
       state.errors = action.payload;
     },
     setNameC(state, action: PayloadAction<string>) {
@@ -88,7 +93,13 @@ const mainSlice = createSlice({
       state.control.imageC = action.payload;
     },
     setFlagC(state, action: PayloadAction<boolean>) {
-      state.control.termsFalgC = action.payload;
+      state.control.termsFlagC = action.payload;
+    },
+    setStyleU(state, action: PayloadAction<string>) {
+      state.style.uncontroll = action.payload;
+    },
+    setStyleC(state, action: PayloadAction<string>) {
+      state.style.control = action.payload;
     },
   },
 });
@@ -111,5 +122,7 @@ export const {
   setGenderC,
   setImageC,
   setFlagC,
+  setStyleC,
+  setStyleU,
 } = mainSlice.actions;
 export const mainReduser = mainSlice.reducer;
