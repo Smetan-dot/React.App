@@ -31,8 +31,8 @@ export function SetSchema() {
     name: yup
       .string()
       .required('enter your name')
-      .matches(/(^[A-ZА-ЯЁ][a-zа-яё]*$)/, {
-        message: 'capitalize first letter of name',
+      .matches(/(^[A-Z][a-zA-Z]*$)/, {
+        message: 'capitalize first letter, use only letters',
       }),
     age: yup
       .number()
@@ -42,20 +42,20 @@ export function SetSchema() {
     email: yup.string().email().required('enter your email'),
     confirmEmail: yup
       .string()
-      .oneOf([yup.ref('email')], 'emails mismatch')
       .email()
+      .oneOf([yup.ref('email')], 'emails mismatch')
       .required('confirm your email'),
     password: yup
       .string()
       .required('enter password')
       .password()
-      .minLowercase(1),
+      .minLowercase(1, 'min 1 small letter'),
     confirmPassword: yup
       .string()
-      .oneOf([yup.ref('password')], 'passwords mismatch')
       .required('confirm password')
       .password()
-      .minLowercase(1),
+      .oneOf([yup.ref('password')], 'passwords mismatch')
+      .minLowercase(1, 'min 1 small letter'),
     country: yup
       .string()
       .oneOf(coutries, 'select correct country')

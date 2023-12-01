@@ -150,13 +150,15 @@ function OutControl() {
             onChange={handleChange}
           />
         </label>
-        <label className="control-lable" id="input-terms">
-          <h5 className="input-name">Accept T&C</h5>
-          <input type="checkbox" name="t&c" ref={flagRef} />
-        </label>
-        <button type="submit" className="submit-button">
-          Submit
-        </button>
+        <div className="submit-block">
+          <label className="control-lable" id="input-terms">
+            <h5 className="input-name">Accept T&C</h5>
+            <input type="checkbox" name="t&c" ref={flagRef} />
+          </label>
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+        </div>
       </form>
       <p className="errors-block">
         {errors.map((item, i) => (

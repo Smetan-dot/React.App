@@ -6,8 +6,20 @@ import { base64ToBlob } from '../../helpers/Helpers';
 function Main() {
   const { name, age, email, password, country, gender, image, termsFalg } =
     useAppSelector((store) => store.main.unControl);
-  let objectURL;
-  if (image !== '') objectURL = URL.createObjectURL(base64ToBlob(image));
+  const {
+    nameC,
+    ageC,
+    emailC,
+    passwordC,
+    countryC,
+    genderC,
+    imageC,
+    termsFalgC,
+  } = useAppSelector((store) => store.main.control);
+  let objectUrl;
+  let objectUrlC;
+  if (image !== '') objectUrl = URL.createObjectURL(base64ToBlob(image));
+  if (imageC !== '') objectUrlC = URL.createObjectURL(base64ToBlob(imageC));
   return (
     <>
       <h1 className="main-heading">
@@ -31,7 +43,7 @@ function Main() {
             </h4>
             <h4 className="tile-item">
               Image:
-              {!objectURL ? '' : <img src={objectURL} className="tile-image" />}
+              {!objectUrl ? '' : <img src={objectUrl} className="tile-image" />}
             </h4>
           </div>
         </div>
@@ -39,6 +51,25 @@ function Main() {
           <Link to={'/react-hook-form'} className="main-link">
             Yes, I{"'"}m control.
           </Link>
+          <div className="info-tile">
+            <h4 className="tile-item">Name: {nameC}</h4>
+            <h4 className="tile-item">Age: {ageC}</h4>
+            <h4 className="tile-item">Email: {emailC}</h4>
+            <h4 className="tile-item">Password: {passwordC}</h4>
+            <h4 className="tile-item">Country: {countryC}</h4>
+            <h4 className="tile-item">Gender: {genderC}</h4>
+            <h4 className="tile-item">
+              Reed T&S: {!termsFalgC ? '' : termsFalgC.toString()}
+            </h4>
+            <h4 className="tile-item">
+              Image:
+              {!objectUrlC ? (
+                ''
+              ) : (
+                <img src={objectUrlC} className="tile-image" />
+              )}
+            </h4>
+          </div>
         </div>
       </div>
     </>
