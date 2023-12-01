@@ -1,0 +1,91 @@
+.control-heading {
+    font-size: 32px;
+    letter-spacing: 2px;
+    text-shadow:1px 1px 0 rgb(204,204,204),2px 2px 0 rgb(153,153,153),3px 3px 0 rgb(102,102,102),4px 4px 0 rgb(51,51,51),5px 5px 1px rgba(0,0,0,0.45);
+    color: rgb(180, 177, 0);
+}
+
+.control-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    color: black;
+    background-color: white;
+}
+
+.form-heading {
+    margin-bottom: 20px;
+    color: rgb(15, 15, 56);
+}
+
+.form-description {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+.control-lable {
+    display: flex;
+    gap: 10%;
+    margin-top: 5px;
+}
+
+.input-name {
+    width: 150px;
+    text-align: end;
+}
+
+#select-name {
+    position: relative;
+    right: 8px;
+}
+
+.gender-select {
+    position: relative;
+    right: 10px;
+    width: 197px;
+}
+
+#input-image {
+    position: relative;
+    left: 20px;
+}
+
+#insert-image {
+    position: relative;
+    left: 12px;
+}
+
+#input-terms {
+    margin-right: 5px;
+}
+
+.submit-button {
+    width: 10vw;
+}
+
+.errors-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: rgb(250, 167, 43);
+}
+
+.error-string {
+    width: 327px;
+    height: 15px;
+    text-align: end;
+    font-size: 12px;
+    color: rgb(211, 0, 0);
+}
+
+.submit-block {
+    width: 327px;
+    display: flex;
+    align-items: center;
+}
+
+#terms-error {
+    text-align: left;
+}
